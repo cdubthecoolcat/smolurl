@@ -10,13 +10,11 @@ import io.ktor.response.respondText
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.post
+import io.ktor.routing.put
 import io.ktor.routing.route
 
 fun Route.url(service: UrlService) {
   route("/api/url") {
-    get {
-      call.respond(service.findAll())
-    }
     post {
       val u: UrlModel? = call.receiveOrNull()
       if (u != null) {

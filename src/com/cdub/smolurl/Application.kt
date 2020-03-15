@@ -1,5 +1,6 @@
 package com.cdub.smolurl
 
+import com.cdub.smolurl.controllers.index
 import com.cdub.smolurl.controllers.url
 import com.cdub.smolurl.models.UrlTable
 import com.cdub.smolurl.services.UrlService
@@ -43,6 +44,7 @@ fun Application.module(testing: Boolean = false) {
   val urlService: UrlService = UrlService()
 
   install(Routing) {
+    index()
     url(urlService)
   }
 

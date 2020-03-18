@@ -34,7 +34,7 @@ dependencies {
     implementation("org.jetbrains.exposed", "exposed-core", exposed_version)
     implementation("org.jetbrains.exposed", "exposed-dao", exposed_version)
     implementation("org.jetbrains.exposed", "exposed-jdbc", exposed_version)
-    implementation("mysql", "mysql-connector-java", "5.1.46")
+    implementation("org.postgresql", "postgresql", "42.2.2")
     testImplementation("io.ktor", "ktor-server-tests", ktor_version)
 }
 

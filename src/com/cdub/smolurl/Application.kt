@@ -2,6 +2,7 @@ package com.cdub.smolurl
 
 import com.cdub.smolurl.controllers.index
 import com.cdub.smolurl.controllers.url
+import com.cdub.smolurl.controllers.urlRedirect
 import com.cdub.smolurl.models.UrlTable
 import com.cdub.smolurl.services.UrlService
 import io.ktor.application.Application
@@ -33,8 +34,8 @@ fun Application.module(testing: Boolean = false) {
   }
 
   Database.connect(
-    url = "jdbc:mysql://localhost:3306/smolurl",
-    driver = "com.mysql.jdbc.Driver",
+    url = "jdbc:postgresql://localhost:5432/smolurl",
+    driver = "org.postgresql.Driver",
     user = "root",
     password = "root"
   )
@@ -46,6 +47,7 @@ fun Application.module(testing: Boolean = false) {
   install(Routing) {
     index()
     url(urlService)
+    urlRedirect(urlService)
   }
 
 }

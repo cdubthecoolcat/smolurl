@@ -4,6 +4,7 @@ import com.cdub.smolurl.models.Url
 import com.cdub.smolurl.models.UrlModel
 import com.cdub.smolurl.models.UrlTable
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.security.MessageDigest
 
 class UrlService {
   suspend fun findAll(): List<UrlModel> = newSuspendedTransaction {
@@ -26,7 +27,7 @@ class UrlService {
   suspend fun create(url: UrlModel): UrlModel = newSuspendedTransaction {
     Url.new {
       target = url.target
-      short = url.short
+      short = hash(url.target).substring(0, 6)
     }.toModel()
   }
 
@@ -41,5 +42,19 @@ class UrlService {
     val u = Url[id]
     u.delete()
     u.toModel()
+  }
+
+  private fun hash(url: String): String {
+    val HEX_CHARS = "0123456789ABCDEF"
+    val bytes = MessageDigest.getInstance("MD5").digest(url.toByteArray())
+    val result = StringBuilder(bytes.size * 2)
+
+    bytes.forEach { 
+      val i = it.toInt()
+      result.append(HEX_CHARS[i shr 4 and 0x0f])
+      result.append(HEX_CHARS[i and 0x0f])
+    }
+
+    return result.toString();
   }
 }

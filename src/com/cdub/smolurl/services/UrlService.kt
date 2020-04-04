@@ -5,6 +5,7 @@ import com.cdub.smolurl.models.UrlModel
 import com.cdub.smolurl.models.UrlTable
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.security.MessageDigest
+import java.time.LocalDateTime
 
 class UrlService {
   suspend fun findAll(): List<UrlModel> = newSuspendedTransaction {
@@ -15,19 +16,21 @@ class UrlService {
     if (id != null) {
       Url[id].toModel()
     }
-    UrlModel(target = "", short = "")
+    UrlModel(target = "", short = "", createdAt = "", updatedAt = "")
   }
 
-  suspend fun findByShort(short: String): UrlModel = newSuspendedTransaction {
+  suspend fun findByShort(short: String): UrlModel? = newSuspendedTransaction {
     Url.find {
       UrlTable.short eq short
-    }.first().toModel()
+    }.firstOrNull()?.toModel()
   }
 
   suspend fun create(url: UrlModel): UrlModel = newSuspendedTransaction {
     Url.new {
       target = url.target
-      short = hash(url.target).substring(0, 6)
+      short = if (url.short.isNotBlank()) url.short else hash(url.target).substring(0, 6)
+      createdAt = LocalDateTime.now()
+      updatedAt = LocalDateTime.now()
     }.toModel()
   }
 
@@ -35,6 +38,7 @@ class UrlService {
     val u = Url[url.id!!]
     u.short = url.short
     u.target = url.target
+    u.updatedAt = LocalDateTime.now()
     u.toModel()
   }
 
@@ -45,7 +49,7 @@ class UrlService {
   }
 
   private fun hash(url: String): String {
-    val HEX_CHARS = "0123456789ABCDEF"
+    val HEX_CHARS = "0123456789abcdef"
     val bytes = MessageDigest.getInstance("MD5").digest(url.toByteArray())
     val result = StringBuilder(bytes.size * 2)
 

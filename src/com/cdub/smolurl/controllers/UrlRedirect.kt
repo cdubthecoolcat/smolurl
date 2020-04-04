@@ -12,10 +12,13 @@ fun Route.urlRedirect(service: UrlService) {
   route("/{short}") {
     get {
       val short = call.parameters["short"]
+      var target: String? = null
       if (short != null) {
-        val target = service.findByShort(short).target
-        call.respondRedirect(if (target.startsWith("http://")) target else "http://$target")
-      } else {
+        target = service.findByShort(short)?.target
+      }
+      if (target != null)
+        call.respondRedirect(if (target.startsWith("http://") || target.startsWith("https://")) target else "https://$target")
+      else {
         call.respondText("error")
       }
     }

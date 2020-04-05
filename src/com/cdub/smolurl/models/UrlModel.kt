@@ -1,6 +1,5 @@
 package com.cdub.smolurl.models
 
-import kotlinx.serialization.ContextualSerialization
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
@@ -24,6 +23,7 @@ object UrlTable : LongIdTable("urls") {
   val short: Column<String> = varchar("short", 255)
   val createdAt: Column<LocalDateTime> = datetime("created_at")
   val updatedAt: Column<LocalDateTime> = datetime("updated_at")
+  override val primaryKey = PrimaryKey(short, name = "pk_short")
 }
 
 class Url(id: EntityID<Long>) : LongEntity(id) {

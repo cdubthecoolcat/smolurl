@@ -14,7 +14,7 @@ fun Route.url(service: UrlService) {
   route("/api/urls") {
     post {
       val u: UrlModel? = call.receiveOrNull()
-      if (u != null && service.findByShort(u.short) != null) {
+      if (u != null) {
         call.respond(service.create(u))
       } else {
         call.respondText { "error" }

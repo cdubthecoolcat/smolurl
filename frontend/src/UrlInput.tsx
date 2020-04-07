@@ -1,5 +1,5 @@
 import React, { FormEvent } from 'react';
-import { TextField, Button, Grid, Typography } from '@material-ui/core';
+import { TextField, Button, Grid, Typography, Link } from '@material-ui/core';
 
 function UrlInput() {
   const [urlText, setUrlText] = React.useState<string>('');
@@ -31,7 +31,7 @@ function UrlInput() {
       direction="column"
       alignItems="center"
       justify="center"
-      style={{ minHeight: '100vh' }}>
+      style={{ minHeight: '75vh' }}>
       <form onSubmit={formSubmit}>
         <TextField label='Url' variant='outlined' value={urlText} onChange={(e) => setUrlText(e.target.value)}/>
         <Button
@@ -50,9 +50,10 @@ function UrlInput() {
         <Typography
           variant="h6"
           color="primary">
-          <a href={window.location + shortText} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-          {window.location + shortText}
-        </a></Typography> : null
+            <Link underline="none" href={window.location + shortText} target="_blank" rel="noopener noreferrer">
+              {window.location + shortText}
+            </Link>
+        </Typography> : null
       }
     </Grid>
   );

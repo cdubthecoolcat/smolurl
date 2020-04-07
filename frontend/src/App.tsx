@@ -1,9 +1,13 @@
 import React from 'react';
+import HomeAppBar from './HomeAppBar';
 import UrlInput from './UrlInput';
 
 function App() {
   return (
-    <UrlInput />
+    <div>
+      <HomeAppBar />
+      <UrlInput />
+    </div>
   );
 }
 

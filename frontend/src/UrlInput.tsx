@@ -1,9 +1,9 @@
-import React from 'react';
-import { TextField, Button, Grid } from '@material-ui/core';
+import React, { FormEvent } from 'react';
+import { TextField, Button, Grid, Typography } from '@material-ui/core';
 
 function UrlInput() {
-  const [urlText, setUrlText] = React.useState('');
-  const [shortText, setShortText] = React.useState('');
+  const [urlText, setUrlText] = React.useState<string>('');
+  const [shortText, setShortText] = React.useState<string>('');
 
   const submitUrl = async (url: string) => {
     const response = await fetch('/api/urls', {
@@ -19,18 +19,40 @@ function UrlInput() {
     return await response.json();
   };
 
+  const formSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    submitUrl(urlText).then((data) => setShortText(data.short))
+  }
+
   return (
     <Grid
       container
-      justify="center">
-      <TextField label='Url' variant='filled' value={urlText} onChange={(e) => setUrlText(e.target.value)}/>
-      <Button onClick={() => submitUrl(urlText).then((data) => setShortText(data.short))}>
-        Shorten
-      </Button>
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justify="center"
+      style={{ minHeight: '100vh' }}>
+      <form onSubmit={formSubmit}>
+        <TextField label='Url' variant='outlined' value={urlText} onChange={(e) => setUrlText(e.target.value)}/>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          style={{
+            marginLeft: '12px',
+            marginRight: '12px',
+            paddingTop: '16px',
+            paddingBottom: '16px'
+          }}
+          disableElevation>Shorten</Button>
+      </form>
       {shortText.length > 0 ?
-        <a href={window.location + shortText}>
+        <Typography
+          variant="h6"
+          color="primary">
+          <a href={window.location + shortText} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
           {window.location + shortText}
-        </a> : null
+        </a></Typography> : null
       }
     </Grid>
   );

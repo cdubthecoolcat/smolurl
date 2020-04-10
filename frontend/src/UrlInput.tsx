@@ -1,5 +1,5 @@
 import React, { FormEvent } from 'react';
-import { TextField, Button, Grid, Typography, Link } from '@material-ui/core';
+import { TextField, Button, Fade, Grid, Typography, Link } from '@material-ui/core';
 
 function UrlInput() {
   const [urlText, setUrlText] = React.useState<string>('');
@@ -25,37 +25,39 @@ function UrlInput() {
   }
 
   return (
-    <Grid
-      container
-      spacing={0}
-      direction="column"
-      alignItems="center"
-      justify="center"
-      style={{ minHeight: '75vh' }}>
-      <form onSubmit={formSubmit}>
-        <TextField label='Url' variant='outlined' value={urlText} onChange={(e) => setUrlText(e.target.value)}/>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          style={{
-            marginLeft: '12px',
-            marginRight: '12px',
-            paddingTop: '16px',
-            paddingBottom: '16px'
-          }}
-          disableElevation>Shorten</Button>
-      </form>
-      {shortText.length > 0 ?
-        <Typography
-          variant="h6"
-          color="primary">
-            <Link underline="none" href={window.location + shortText} target="_blank" rel="noopener noreferrer">
-              {window.location + shortText}
-            </Link>
-        </Typography> : null
-      }
-    </Grid>
+    <Fade in={true} timeout={2000}>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center"
+        style={{ minHeight: '75vh' }}>
+        <form onSubmit={formSubmit}>
+          <TextField label='Url' variant='outlined' value={urlText} onChange={(e) => setUrlText(e.target.value)}/>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            style={{
+              marginLeft: '12px',
+              marginRight: '12px',
+              paddingTop: '16px',
+              paddingBottom: '16px'
+            }}
+            disableElevation>Shorten</Button>
+        </form>
+        {shortText.length > 0 ?
+          <Typography
+            variant="h6"
+            color="primary">
+              <Link underline="none" href={window.location + shortText} target="_blank" rel="noopener noreferrer">
+                {window.location + shortText}
+              </Link>
+          </Typography> : null
+        }
+      </Grid>
+    </Fade>
   );
 }
 

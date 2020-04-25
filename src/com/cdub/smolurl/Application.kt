@@ -15,7 +15,7 @@ import io.ktor.http.ContentType
 import io.ktor.metrics.dropwizard.DropwizardMetrics
 import io.ktor.routing.Routing
 import io.ktor.serialization.DefaultJsonConfiguration
-import io.ktor.serialization.serialization
+import io.ktor.serialization.json
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -37,13 +37,11 @@ fun Application.module() {
   }
 
   install(ContentNegotiation) {
-    serialization(
-      contentType = ContentType.Application.Json,
+    json(
       json = Json(
-        DefaultJsonConfiguration.copy(
-          prettyPrint = true
-        )
-      )
+        DefaultJsonConfiguration.copy(prettyPrint = true)
+      ),
+      contentType = ContentType.Application.Json
     )
   }
 

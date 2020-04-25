@@ -5,8 +5,8 @@ val exposed_version: String by project
 
 plugins {
     application
-    kotlin("jvm") version "1.3.61"
-    kotlin("plugin.serialization") version "1.3.70"
+    kotlin("jvm") version "1.3.72"
+    kotlin("plugin.serialization") version "1.3.72"
 }
 
 group = "com.cdub.smolurl"
@@ -23,9 +23,9 @@ repositories {
 }
 
 dependencies {
+    implementation("ch.qos.logback", "logback-classic", logback_version)
     implementation("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", kotlin_version)
     implementation("io.ktor", "ktor-server-netty", ktor_version)
-    implementation("ch.qos.logback", "logback-classic", logback_version)
     implementation("io.ktor", "ktor-server-core", ktor_version)
     implementation("io.ktor", "ktor-serialization", ktor_version)
     implementation("io.ktor", "ktor-metrics", ktor_version)

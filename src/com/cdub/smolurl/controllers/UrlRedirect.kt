@@ -1,9 +1,11 @@
 package com.cdub.smolurl.controllers
 
+import com.cdub.smolurl.models.ErrorModel
+import com.cdub.smolurl.models.ErrorType
 import com.cdub.smolurl.services.UrlService
 import io.ktor.application.call
+import io.ktor.response.respond
 import io.ktor.response.respondRedirect
-import io.ktor.response.respondText
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.route
@@ -19,7 +21,9 @@ fun Route.urlRedirect(service: UrlService) {
       if (target != null)
         call.respondRedirect(if (target.startsWith("http://") || target.startsWith("https://")) target else "https://$target")
       else {
-        call.respondText("error")
+        call.respond(
+          "error" to ErrorModel(ErrorType.DOES_NOT_EXIST, "The requested url does not exist.")
+        )
       }
     }
   }

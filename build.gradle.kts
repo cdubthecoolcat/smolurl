@@ -39,7 +39,7 @@ dependencies {
 }
 
 task("buildReact", Exec::class) {
-  workingDir("${workingDir}/frontend")
+  workingDir("${workingDir}/web")
   inputs.dir("${workingDir}/src")
   commandLine("yarn", "build")
 }

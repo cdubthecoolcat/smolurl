@@ -6,7 +6,7 @@ import java.io.File
 
 fun Route.index() {
   static("static") {
-    staticRootFolder = File("frontend/build/static")
+    staticRootFolder = File("web/build/static")
     static("css") {
       files("css")
     }
@@ -18,7 +18,7 @@ fun Route.index() {
     }
   }
   static {
-    staticRootFolder = File("frontend/build")
+    staticRootFolder = File("web/build")
     file("favicon.ico")
     default("index.html")
   }

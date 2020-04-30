@@ -40,6 +40,7 @@ dependencies {
 
 task("buildReact", Exec::class) {
   workingDir("${workingDir}/frontend")
+  inputs.dir("${workingDir}/src")
   commandLine("yarn", "build")
 }
 

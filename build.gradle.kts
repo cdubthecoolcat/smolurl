@@ -1,11 +1,20 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 val ktorVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
 val exposedVersion: String by project
 val postgresqlVersion: String by project
 
+repositories {
+  mavenLocal()
+  jcenter()
+  maven { url = uri("https://kotlin.bintray.com/ktor") }
+}
+
 plugins {
   application
+  id("com.github.johnrengelman.shadow") version "5.2.0"
   kotlin("jvm") version "1.3.72"
   kotlin("plugin.serialization") version "1.3.72"
 }
@@ -17,10 +26,8 @@ application {
   mainClassName = "io.ktor.server.netty.EngineMain"
 }
 
-repositories {
-  mavenLocal()
-  jcenter()
-  maven { url = uri("https://kotlin.bintray.com/ktor") }
+tasks.withType(ShadowJar::class) {
+  archiveBaseName.set("smolurl")
 }
 
 dependencies {
@@ -29,7 +36,6 @@ dependencies {
   implementation("io.ktor", "ktor-server-netty", ktorVersion)
   implementation("io.ktor", "ktor-server-core", ktorVersion)
   implementation("io.ktor", "ktor-serialization", ktorVersion)
-  implementation("io.ktor", "ktor-metrics", ktorVersion)
   implementation("org.jetbrains.exposed", "exposed-core", exposedVersion)
   implementation("org.jetbrains.exposed", "exposed-dao", exposedVersion)
   implementation("org.jetbrains.exposed", "exposed-jdbc", exposedVersion)
@@ -42,6 +48,12 @@ task("buildReact", Exec::class) {
   workingDir("${workingDir}/web")
   inputs.dir("${workingDir}/src")
   commandLine("yarn", "build")
+}
+
+task("dockerUp", Exec::class) {
+  setDependsOn(listOf("build", "buildReact"))
+  workingDir(rootDir)
+  commandLine("docker-compose", "up", "--build")
 }
 
 kotlin.sourceSets["main"].kotlin.srcDirs("src")

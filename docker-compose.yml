@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: smolurl
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    ports:
+      - 5432:5432
+
+  app:
+    restart: always
+    depends_on:
+      - postgres
+    build: .
+    ports:
+      - 8000:8000

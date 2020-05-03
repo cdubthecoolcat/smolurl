@@ -16,5 +16,7 @@ USER $APPLICATION_USER
 COPY ./build/libs/smolurl-0.0.1-all.jar /app/smolurl.jar
 WORKDIR /app
 
+EXPOSE 8000
+
 # We launch java to execute the jar, with good defauls intended for containers.
 CMD ["java", "-server", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-XX:InitialRAMFraction=2", "-XX:MinRAMFraction=2", "-XX:MaxRAMFraction=2", "-XX:+UseG1GC", "-XX:MaxGCPauseMillis=100", "-XX:+UseStringDeduplication", "-jar", "smolurl.jar"]

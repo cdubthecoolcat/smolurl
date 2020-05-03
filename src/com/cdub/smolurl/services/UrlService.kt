@@ -26,9 +26,12 @@ class UrlService {
   }
 
   suspend fun create(url: UrlModel): UrlModel = newSuspendedTransaction {
-    Url.new {
+    val newShort = if (url.short.isNotBlank()) url.short else hash(url.target).substring(0, 6)
+    val existingUrl = findByShort(newShort)
+
+    existingUrl ?: Url.new {
       target = url.target
-      short = if (url.short.isNotBlank()) url.short else hash(url.target).substring(0, 6)
+      short = newShort
       createdAt = LocalDateTime.now()
       updatedAt = LocalDateTime.now()
     }.toModel()
@@ -53,7 +56,7 @@ class UrlService {
     val bytes = MessageDigest.getInstance("MD5").digest(url.toByteArray())
     val result = StringBuilder(bytes.size * 2)
 
-    bytes.forEach { 
+    bytes.forEach {
       val i = it.toInt()
       result.append(HEX_CHARS[i shr 4 and 0x0f])
       result.append(HEX_CHARS[i and 0x0f])

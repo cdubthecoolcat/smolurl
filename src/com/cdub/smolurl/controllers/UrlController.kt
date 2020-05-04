@@ -11,12 +11,14 @@ import io.ktor.routing.Route
 import io.ktor.routing.post
 import io.ktor.routing.route
 import io.ktor.util.pipeline.PipelineContext
+import java.io.File
+import java.io.FileNotFoundException
 
-private val domainBlacklist = listOf(
-  "localhost",
-  "0.0.0.0",
-  "127.0.0.1"
-)
+val domainBlacklist = try {
+  File("blacklist").useLines { it.toList() }
+} catch (ex: FileNotFoundException) {
+  emptyList<String>()
+}
 
 fun Route.url(service: UrlService) {
   route("/api/urls") {

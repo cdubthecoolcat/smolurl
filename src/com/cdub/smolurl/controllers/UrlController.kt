@@ -14,6 +14,12 @@ import io.ktor.util.pipeline.PipelineContext
 import java.io.File
 import java.io.FileNotFoundException
 
+val domainBlacklist = try {
+  File("blacklist").useLines { it.toList() }
+} catch (ex: FileNotFoundException) {
+  emptyList<String>()
+}
+
 fun Route.url(service: UrlService) {
   route("/api/urls") {
     post {
@@ -33,12 +39,6 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.domainBlacklistGuard(
   model: UrlModel?,
   block: suspend PipelineContext<Unit, ApplicationCall>.() -> Unit
 ) {
-  val domainBlacklist = try {
-    File("blacklist").useLines { it.toList() }
-  } catch (ex: FileNotFoundException) {
-    emptyList<String>()
-  }
-
   if (domainBlacklist.any { model?.target?.contains(it) == true }) {
     call.respondText { "domain blocked" }
   } else {

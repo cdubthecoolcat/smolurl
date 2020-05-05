@@ -4,6 +4,7 @@ import com.cdub.smolurl.models.ErrorModel
 import com.cdub.smolurl.models.ErrorType
 import com.cdub.smolurl.models.UrlModel
 import com.cdub.smolurl.services.UrlService
+import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.request.receiveOrNull
 import io.ktor.response.respond
@@ -11,24 +12,38 @@ import io.ktor.response.respondText
 import io.ktor.routing.Route
 import io.ktor.routing.post
 import io.ktor.routing.route
-import org.jetbrains.exposed.exceptions.ExposedSQLException
-import org.postgresql.util.PSQLException
-import java.sql.BatchUpdateException
+import io.ktor.util.pipeline.PipelineContext
+import java.io.File
+import java.io.FileNotFoundException
+
+val domainBlacklist = try {
+  File("blacklist").useLines { it.toList() }
+} catch (ex: FileNotFoundException) {
+  emptyList<String>()
+}
 
 fun Route.url(service: UrlService) {
   route("/api/urls") {
     post {
       val u: UrlModel? = call.receiveOrNull()
-      if (u != null) {
-        try {
-          val newUrl: UrlModel = service.create(u)
-          call.respond(newUrl)
-        } catch (e: ExposedSQLException) {
-          call.respond(ErrorModel(ErrorType.DUPLICATE, "The submitted url already exists."))
+      domainBlacklistGuard(u) {
+        if (u != null) {
+          call.respond(service.create(u))
+        } else {
+          call.respond(ErrorModel(ErrorType.INVALID_URL, "The submitted url is invalid."))
         }
-      } else {
-        call.respond(ErrorModel(ErrorType.INVALID_URL, "The submitted url is invalid."))
       }
     }
+  }
+}
+
+private suspend fun PipelineContext<Unit, ApplicationCall>.domainBlacklistGuard(
+  model: UrlModel?,
+  block: suspend PipelineContext<Unit, ApplicationCall>.() -> Unit
+) {
+  if (domainBlacklist.any { model?.target?.contains(it) == true }) {
+    call.respondText { "domain blocked" }
+  } else {
+    block()
   }
 }

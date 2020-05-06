@@ -6,6 +6,7 @@ import com.cdub.smolurl.models.UrlModel
 import com.cdub.smolurl.services.UrlService
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call
+import io.ktor.http.HttpStatusCode
 import io.ktor.request.receiveOrNull
 import io.ktor.response.respond
 import io.ktor.response.respondText
@@ -27,10 +28,10 @@ fun Route.url(service: UrlService) {
     post {
       val u: UrlModel? = call.receiveOrNull()
       domainBlacklistGuard(u) {
-        if (u != null) {
+        if (u != null && Regex("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]").matches(u.target)) {
           call.respond(service.create(u))
         } else {
-          call.respond(ErrorModel(ErrorType.INVALID_URL, "The submitted url is invalid."))
+          call.respond(HttpStatusCode.NotAcceptable, ErrorModel(ErrorType.INVALID_URL, "The submitted url is invalid."))
         }
       }
     }

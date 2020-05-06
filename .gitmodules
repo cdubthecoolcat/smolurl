@@ -1,3 +1,4 @@
 [submodule "web"]
 	path = web
 	url = git@github.com:cdubthecoolcat/smolurl-web
+	branch = master

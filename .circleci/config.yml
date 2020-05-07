@@ -67,3 +67,10 @@ jobs:
 
       - store_artifacts:
           path: build/libs
+
+workflows:
+  version: 2
+  main_workflow:
+    jobs:
+      - lint
+      - build

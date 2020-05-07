@@ -3,6 +3,7 @@ package com.cdub.smolurl.services
 import com.cdub.smolurl.models.Url
 import com.cdub.smolurl.models.UrlModel
 import com.cdub.smolurl.models.UrlTable
+import com.cdub.smolurl.models.errors.DuplicateShortException
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.security.MessageDigest
 import java.time.LocalDateTime
@@ -28,6 +29,10 @@ class UrlService {
   suspend fun create(url: UrlModel): UrlModel = newSuspendedTransaction {
     val newShort = if (url.short.isNotBlank()) url.short else hash(url.target).substring(0, 6)
     val existingUrl = findByShort(newShort)
+
+    if (url.short.isNotBlank() && existingUrl != null) {
+      throw DuplicateShortException()
+    }
 
     existingUrl ?: Url.new {
       target = url.target

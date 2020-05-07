@@ -8,12 +8,14 @@ val postgresqlVersion: String by project
 
 repositories {
   mavenLocal()
+  maven("https://plugins.gradle.org/m2/")
   jcenter()
-  maven { url = uri("https://kotlin.bintray.com/ktor") }
+  maven("https://kotlin.bintray.com/ktor")
 }
 
 plugins {
   application
+  id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
   id("com.github.johnrengelman.shadow") version "5.2.0"
   kotlin("jvm") version "1.3.72"
   kotlin("plugin.serialization") version "1.3.72"
@@ -45,8 +47,8 @@ dependencies {
 }
 
 task("buildReact", Exec::class) {
-  workingDir("${workingDir}/web")
-  inputs.dir("${workingDir}/src")
+  workingDir("$workingDir/web")
+  inputs.dir("$workingDir/src")
   commandLine("yarn", "build")
 }
 

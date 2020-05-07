@@ -30,7 +30,7 @@ class UrlService {
     val newShort = if (url.short.isNotBlank()) url.short else hash(url.target).substring(0, 6)
     val existingUrl = findByShort(newShort)
 
-    if (url.short.isNotBlank() && existingUrl != null) {
+    if (url.short.isNotBlank() && existingUrl?.target == url.target) {
       throw DuplicateShortException()
     }
 

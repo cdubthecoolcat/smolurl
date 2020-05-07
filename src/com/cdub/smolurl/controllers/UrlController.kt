@@ -2,7 +2,6 @@ package com.cdub.smolurl.controllers
 
 import com.cdub.smolurl.models.UrlModel
 import com.cdub.smolurl.models.errors.DomainBlockedException
-import com.cdub.smolurl.models.errors.DuplicateShortException
 import com.cdub.smolurl.models.errors.InvalidInputException
 import com.cdub.smolurl.models.errors.safeCall
 import com.cdub.smolurl.services.UrlService
@@ -10,7 +9,6 @@ import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.request.receiveOrNull
 import io.ktor.response.respond
-import io.ktor.response.respondText
 import io.ktor.routing.Route
 import io.ktor.routing.post
 import io.ktor.routing.route

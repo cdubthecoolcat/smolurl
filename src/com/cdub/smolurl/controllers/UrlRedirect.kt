@@ -1,13 +1,9 @@
 package com.cdub.smolurl.controllers
 
-import com.cdub.smolurl.models.errors.ErrorModel
-import com.cdub.smolurl.models.errors.ErrorType
 import com.cdub.smolurl.models.errors.safeCall
 import com.cdub.smolurl.services.UrlService
 import io.ktor.application.call
 import io.ktor.features.NotFoundException
-import io.ktor.http.HttpStatusCode
-import io.ktor.response.respond
 import io.ktor.response.respondRedirect
 import io.ktor.routing.Route
 import io.ktor.routing.get

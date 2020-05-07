@@ -4,9 +4,9 @@ import com.cdub.smolurl.models.Url
 import com.cdub.smolurl.models.UrlModel
 import com.cdub.smolurl.models.UrlTable
 import com.cdub.smolurl.models.errors.DuplicateShortException
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.security.MessageDigest
 import java.time.LocalDateTime
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class UrlService {
   suspend fun findAll(): List<UrlModel> = newSuspendedTransaction {
@@ -67,6 +67,6 @@ class UrlService {
       result.append(HEX_CHARS[i and 0x0f])
     }
 
-    return result.toString();
+    return result.toString()
   }
 }

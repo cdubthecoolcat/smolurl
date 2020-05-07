@@ -3,8 +3,8 @@ package com.cdub.smolurl.services
 import com.cdub.smolurl.models.errors.Error
 import com.cdub.smolurl.models.errors.ErrorModel
 import com.cdub.smolurl.models.errors.ErrorType
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.time.LocalDateTime
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class ErrorService {
   suspend fun findAll(): List<ErrorModel> = newSuspendedTransaction {

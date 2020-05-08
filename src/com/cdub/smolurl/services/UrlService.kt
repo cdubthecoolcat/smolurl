@@ -30,7 +30,8 @@ class UrlService {
     val newShort = if (url.short.isNotBlank()) url.short else hash(url.target).substring(0, 6)
     val existingUrl = findByShort(newShort)
 
-    if (url.short.isNotBlank() && existingUrl?.target == url.target) {
+    // if custom short is supplied and that short is already associated with a target, throw exception unless target is the same
+    if (url.short.isNotBlank() && existingUrl != null && existingUrl.target != url.target) {
       throw DuplicateShortException()
     }
 

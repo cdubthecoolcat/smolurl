@@ -15,13 +15,14 @@ import org.jetbrains.exposed.dao.id.LongIdTable
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.`java-time`.datetime
 
-enum class ErrorType {
-  UNKNOWN,
-  NOT_FOUND,
-  INVALID_URL,
-  BLOCKED_DOMAIN,
-  DUPLICATE,
-  INVALID_INPUT
+@Serializable
+enum class ErrorType(val message: String) {
+  UNKNOWN("Unknown Error"),
+  NOT_FOUND("URL not found"),
+  INVALID_URL("Invalid URL"),
+  BLOCKED_DOMAIN("Domain not permitted"),
+  DUPLICATE("Entry already exists"),
+  INVALID_INPUT("Invalid input");
 }
 
 @Serializable
@@ -29,7 +30,9 @@ data class ErrorModel(
   val id: Long? = null,
   val type: ErrorType,
   val timestamp: String? = null
-)
+) {
+  val message: String = type.message
+}
 
 object ErrorTable : LongIdTable("errors") {
   val type: Column<String> = varchar("type", 255)
@@ -56,7 +59,7 @@ suspend fun PipelineContext<Unit, ApplicationCall>.safeCall(
     block()
   } catch (ex: Exception) {
     val exModel = ex.toErrorModel()
-    call.respond(exModel.first, exModel.second)
+    call.respond(exModel.first, mapOf("error" to exModel.second))
   }
 }
 

@@ -10,13 +10,13 @@ import io.ktor.routing.get
 import io.ktor.routing.route
 
 fun Route.urlRedirect(service: UrlService) {
-  route("/{short}") {
+  route("/{alias}") {
     get {
       safeCall {
-        val short = call.parameters["short"]
+        val alias = call.parameters["alias"]
         var target: String? = null
-        if (short != null) {
-          target = service.findByShort(short)?.target
+        if (alias != null) {
+          target = service.findByAlias(alias)?.target
         }
         if (target != null)
           call.respondRedirect(if (target.startsWith("http://") || target.startsWith("https://")) target else "https://$target")

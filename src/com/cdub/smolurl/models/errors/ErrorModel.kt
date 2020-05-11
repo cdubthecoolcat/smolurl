@@ -65,7 +65,7 @@ suspend fun PipelineContext<Unit, ApplicationCall>.safeCall(
 
 fun Exception.toErrorModel(): Pair<HttpStatusCode, ErrorModel> = when (this) {
   is InvalidUrlException -> Pair(HttpStatusCode.BadRequest, ErrorModel(type = ErrorType.INVALID_URL))
-  is DuplicateShortException -> Pair(HttpStatusCode.BadRequest, ErrorModel(type = ErrorType.DUPLICATE))
+  is DuplicateAliasException -> Pair(HttpStatusCode.BadRequest, ErrorModel(type = ErrorType.DUPLICATE))
   is InvalidInputException -> Pair(HttpStatusCode.BadRequest, ErrorModel(type = ErrorType.INVALID_INPUT))
   is NotFoundException -> Pair(HttpStatusCode.NotFound, ErrorModel(type = ErrorType.NOT_FOUND))
   is DomainBlockedException -> Pair(HttpStatusCode.Forbidden, ErrorModel(type = ErrorType.BLOCKED_DOMAIN))

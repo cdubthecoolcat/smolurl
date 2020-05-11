@@ -3,7 +3,7 @@ package com.cdub.smolurl.services
 import com.cdub.smolurl.models.Url
 import com.cdub.smolurl.models.UrlModel
 import com.cdub.smolurl.models.UrlTable
-import com.cdub.smolurl.models.errors.DuplicateShortException
+import com.cdub.smolurl.models.errors.DuplicateAliasException
 import java.security.MessageDigest
 import java.time.LocalDateTime
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -17,27 +17,27 @@ class UrlService {
     if (id != null) {
       Url[id].toModel()
     }
-    UrlModel(target = "", short = "", createdAt = "", updatedAt = "")
+    UrlModel(target = "", alias = "", createdAt = "", updatedAt = "")
   }
 
-  suspend fun findByShort(short: String): UrlModel? = newSuspendedTransaction {
+  suspend fun findByAlias(alias: String): UrlModel? = newSuspendedTransaction {
     Url.find {
-      UrlTable.short eq short
+      UrlTable.alias eq alias
     }.firstOrNull()?.toModel()
   }
 
   suspend fun create(url: UrlModel): UrlModel = newSuspendedTransaction {
-    val newShort = if (url.short.isNotBlank()) url.short else hash(url.target).substring(0, 6)
-    val existingUrl = findByShort(newShort)
+    val newAlias = if (url.alias.isNotBlank()) url.alias else hash(url.target).substring(0, 6)
+    val existingUrl = findByAlias(newAlias)
 
-    // if custom short is supplied and that short is already associated with a target, throw exception unless target is the same
-    if (url.short.isNotBlank() && existingUrl != null && existingUrl.target != url.target) {
-      throw DuplicateShortException()
+    // if custom alias is supplied and that alias is already associated with a target, throw exception unless target is the same
+    if (url.alias.isNotBlank() && existingUrl != null && existingUrl.target != url.target) {
+      throw DuplicateAliasException()
     }
 
     existingUrl ?: Url.new {
       target = url.target
-      short = newShort
+      alias = newAlias
       createdAt = LocalDateTime.now()
       updatedAt = LocalDateTime.now()
     }.toModel()
@@ -45,7 +45,7 @@ class UrlService {
 
   suspend fun update(url: UrlModel): UrlModel = newSuspendedTransaction {
     val u = Url[url.id!!]
-    u.short = url.short
+    u.alias = url.alias
     u.target = url.target
     u.updatedAt = LocalDateTime.now()
     u.toModel()

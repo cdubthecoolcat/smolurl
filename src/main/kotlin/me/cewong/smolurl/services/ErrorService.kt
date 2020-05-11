@@ -1,9 +1,9 @@
-package com.cdub.smolurl.services
+package me.cewong.smolurl.services
 
-import com.cdub.smolurl.models.errors.Error
-import com.cdub.smolurl.models.errors.ErrorModel
-import com.cdub.smolurl.models.errors.ErrorType
 import java.time.LocalDateTime
+import me.cewong.smolurl.models.errors.Error
+import me.cewong.smolurl.models.errors.ErrorModel
+import me.cewong.smolurl.models.errors.ErrorType
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class ErrorService {

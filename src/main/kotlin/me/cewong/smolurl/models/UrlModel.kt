@@ -1,4 +1,4 @@
-package com.cdub.smolurl.models
+package me.cewong.smolurl.models
 
 import java.time.LocalDateTime
 import kotlinx.serialization.Serializable

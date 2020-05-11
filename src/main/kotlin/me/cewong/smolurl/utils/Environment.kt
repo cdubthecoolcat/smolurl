@@ -1,4 +1,4 @@
-package com.cdub.smolurl.utils
+package me.cewong.smolurl.utils
 
 import io.ktor.application.Application
 import io.ktor.util.KtorExperimentalAPI

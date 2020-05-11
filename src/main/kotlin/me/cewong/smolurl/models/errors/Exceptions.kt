@@ -1,4 +1,4 @@
-package com.cdub.smolurl.models.errors
+package me.cewong.smolurl.models.errors
 
 import java.lang.Exception
 

@@ -21,7 +21,7 @@ plugins {
   kotlin("plugin.serialization") version "1.3.72"
 }
 
-group = "com.cdub.smolurl"
+group = "me.cewong.smolurl"
 version = "0.0.1"
 
 application {

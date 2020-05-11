@@ -1,11 +1,11 @@
-package com.cdub.smolurl.services
+package me.cewong.smolurl.services
 
-import com.cdub.smolurl.models.Url
-import com.cdub.smolurl.models.UrlModel
-import com.cdub.smolurl.models.UrlTable
-import com.cdub.smolurl.models.errors.DuplicateAliasException
 import java.security.MessageDigest
 import java.time.LocalDateTime
+import me.cewong.smolurl.models.Url
+import me.cewong.smolurl.models.UrlModel
+import me.cewong.smolurl.models.UrlTable
+import me.cewong.smolurl.models.errors.DuplicateAliasException
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 class UrlService {

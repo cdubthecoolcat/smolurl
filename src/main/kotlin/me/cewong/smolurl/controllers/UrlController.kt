@@ -1,10 +1,5 @@
-package com.cdub.smolurl.controllers
+package me.cewong.smolurl.controllers
 
-import com.cdub.smolurl.models.UrlModel
-import com.cdub.smolurl.models.errors.DomainBlockedException
-import com.cdub.smolurl.models.errors.InvalidInputException
-import com.cdub.smolurl.models.errors.safeCall
-import com.cdub.smolurl.services.UrlService
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.request.receiveOrNull
@@ -15,6 +10,11 @@ import io.ktor.routing.route
 import io.ktor.util.pipeline.PipelineContext
 import java.io.File
 import java.io.FileNotFoundException
+import me.cewong.smolurl.models.UrlModel
+import me.cewong.smolurl.models.errors.DomainBlockedException
+import me.cewong.smolurl.models.errors.InvalidInputException
+import me.cewong.smolurl.models.errors.safeCall
+import me.cewong.smolurl.services.UrlService
 
 val domainBlacklist = try {
   File("blacklist").useLines { it.toList() }

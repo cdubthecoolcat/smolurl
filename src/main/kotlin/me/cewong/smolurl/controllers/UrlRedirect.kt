@@ -1,13 +1,13 @@
-package com.cdub.smolurl.controllers
+package me.cewong.smolurl.controllers
 
-import com.cdub.smolurl.models.errors.safeCall
-import com.cdub.smolurl.services.UrlService
 import io.ktor.application.call
 import io.ktor.features.NotFoundException
 import io.ktor.response.respondRedirect
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.route
+import me.cewong.smolurl.models.errors.safeCall
+import me.cewong.smolurl.services.UrlService
 
 fun Route.urlRedirect(service: UrlService) {
   route("/{alias}") {

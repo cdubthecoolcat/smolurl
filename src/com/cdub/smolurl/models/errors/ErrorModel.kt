@@ -18,8 +18,8 @@ import org.jetbrains.exposed.sql.`java-time`.datetime
 @Serializable
 enum class ErrorType(val message: String) {
   UNKNOWN("Unknown Error"),
-  NOT_FOUND("Url not found"),
-  INVALID_Url("Invalid Url"),
+  NOT_FOUND("URL not found"),
+  INVALID_URL("Invalid URL"),
   BLOCKED_DOMAIN("Domain not permitted"),
   DUPLICATE("Entry already exists"),
   INVALID_INPUT("Invalid input");
@@ -64,7 +64,7 @@ suspend fun PipelineContext<Unit, ApplicationCall>.safeCall(
 }
 
 fun Exception.toErrorModel(): Pair<HttpStatusCode, ErrorModel> = when (this) {
-  is InvalidUrlException -> Pair(HttpStatusCode.BadRequest, ErrorModel(type = ErrorType.INVALID_Url))
+  is InvalidUrlException -> Pair(HttpStatusCode.BadRequest, ErrorModel(type = ErrorType.INVALID_URL))
   is DuplicateAliasException -> Pair(HttpStatusCode.BadRequest, ErrorModel(type = ErrorType.DUPLICATE))
   is InvalidInputException -> Pair(HttpStatusCode.BadRequest, ErrorModel(type = ErrorType.INVALID_INPUT))
   is NotFoundException -> Pair(HttpStatusCode.NotFound, ErrorModel(type = ErrorType.NOT_FOUND))

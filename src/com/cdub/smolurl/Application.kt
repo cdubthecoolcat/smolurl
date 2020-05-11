@@ -3,10 +3,10 @@ package com.cdub.smolurl
 import com.cdub.smolurl.controllers.index
 import com.cdub.smolurl.controllers.url
 import com.cdub.smolurl.controllers.urlRedirect
-import com.cdub.smolurl.models.URLTable
+import com.cdub.smolurl.models.UrlTable
 import com.cdub.smolurl.models.errors.ErrorTable
 import com.cdub.smolurl.services.ErrorService
-import com.cdub.smolurl.services.URLService
+import com.cdub.smolurl.services.UrlService
 import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
@@ -38,10 +38,10 @@ fun Application.module() {
     password = "root"
   )
   transaction {
-    SchemaUtils.create(URLTable)
+    SchemaUtils.create(UrlTable)
     SchemaUtils.create(ErrorTable)
   }
-  val urlService = URLService()
+  val urlService = UrlService()
   val errorService = ErrorService()
 
   install(Routing) {

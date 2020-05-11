@@ -1,41 +1,41 @@
 package com.cdub.smolurl.services
 
-import com.cdub.smolurl.models.URL
-import com.cdub.smolurl.models.URLModel
-import com.cdub.smolurl.models.URLTable
+import com.cdub.smolurl.models.Url
+import com.cdub.smolurl.models.UrlModel
+import com.cdub.smolurl.models.UrlTable
 import com.cdub.smolurl.models.errors.DuplicateAliasException
 import java.security.MessageDigest
 import java.time.LocalDateTime
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-class URLService {
-  suspend fun findAll(): List<URLModel> = newSuspendedTransaction {
-    URL.all().map { it.toModel() }
+class UrlService {
+  suspend fun findAll(): List<UrlModel> = newSuspendedTransaction {
+    Url.all().map { it.toModel() }
   }
 
-  suspend fun find(id: Long?): URLModel = newSuspendedTransaction {
+  suspend fun find(id: Long?): UrlModel = newSuspendedTransaction {
     if (id != null) {
-      URL[id].toModel()
+      Url[id].toModel()
     }
-    URLModel(target = "", alias = "", createdAt = "", updatedAt = "")
+    UrlModel(target = "", alias = "", createdAt = "", updatedAt = "")
   }
 
-  suspend fun findByAlias(alias: String): URLModel? = newSuspendedTransaction {
-    URL.find {
-      URLTable.alias eq alias
+  suspend fun findByAlias(alias: String): UrlModel? = newSuspendedTransaction {
+    Url.find {
+      UrlTable.alias eq alias
     }.firstOrNull()?.toModel()
   }
 
-  suspend fun create(url: URLModel): URLModel = newSuspendedTransaction {
+  suspend fun create(url: UrlModel): UrlModel = newSuspendedTransaction {
     val newAlias = if (url.alias.isNotBlank()) url.alias else hash(url.target).substring(0, 6)
-    val existingURL = findByAlias(newAlias)
+    val existingUrl = findByAlias(newAlias)
 
     // if custom alias is supplied and that alias is already associated with a target, throw exception unless target is the same
-    if (url.alias.isNotBlank() && existingURL != null && existingURL.target != url.target) {
+    if (url.alias.isNotBlank() && existingUrl != null && existingUrl.target != url.target) {
       throw DuplicateAliasException()
     }
 
-    existingURL ?: URL.new {
+    existingUrl ?: Url.new {
       target = url.target
       alias = newAlias
       createdAt = LocalDateTime.now()
@@ -43,16 +43,16 @@ class URLService {
     }.toModel()
   }
 
-  suspend fun update(url: URLModel): URLModel = newSuspendedTransaction {
-    val u = URL[url.id!!]
+  suspend fun update(url: UrlModel): UrlModel = newSuspendedTransaction {
+    val u = Url[url.id!!]
     u.alias = url.alias
     u.target = url.target
     u.updatedAt = LocalDateTime.now()
     u.toModel()
   }
 
-  suspend fun delete(id: Long): URLModel = newSuspendedTransaction {
-    val u = URL[id]
+  suspend fun delete(id: Long): UrlModel = newSuspendedTransaction {
+    val u = Url[id]
     u.delete()
     u.toModel()
   }

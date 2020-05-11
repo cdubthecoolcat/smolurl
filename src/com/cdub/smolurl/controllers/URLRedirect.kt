@@ -1,7 +1,7 @@
 package com.cdub.smolurl.controllers
 
 import com.cdub.smolurl.models.errors.safeCall
-import com.cdub.smolurl.services.URLService
+import com.cdub.smolurl.services.UrlService
 import io.ktor.application.call
 import io.ktor.features.NotFoundException
 import io.ktor.response.respondRedirect
@@ -9,7 +9,7 @@ import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.route
 
-fun Route.urlRedirect(service: URLService) {
+fun Route.urlRedirect(service: UrlService) {
   route("/{alias}") {
     get {
       safeCall {

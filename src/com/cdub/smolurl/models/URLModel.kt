@@ -10,7 +10,7 @@ import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.`java-time`.datetime
 
 @Serializable
-data class URLModel(
+data class UrlModel(
   val id: Long? = null,
   val target: String,
   val alias: String,
@@ -18,7 +18,7 @@ data class URLModel(
   val updatedAt: String? = null
 )
 
-object URLTable : LongIdTable("urls") {
+object UrlTable : LongIdTable("urls") {
   val target: Column<String> = varchar("target", 255)
   val alias: Column<String> = varchar("alias", 255)
   val createdAt: Column<LocalDateTime> = datetime("created_at")
@@ -26,15 +26,15 @@ object URLTable : LongIdTable("urls") {
   override val primaryKey = PrimaryKey(alias, name = "pk_alias")
 }
 
-class URL(id: EntityID<Long>) : LongEntity(id) {
-  companion object : LongEntityClass<URL>(URLTable)
+class Url(id: EntityID<Long>) : LongEntity(id) {
+  companion object : LongEntityClass<Url>(UrlTable)
 
-  var target by URLTable.target
-  var alias by URLTable.alias
-  var createdAt by URLTable.createdAt
-  var updatedAt by URLTable.updatedAt
+  var target by UrlTable.target
+  var alias by UrlTable.alias
+  var createdAt by UrlTable.createdAt
+  var updatedAt by UrlTable.updatedAt
 
-  fun toModel(): URLModel = URLModel(
+  fun toModel(): UrlModel = UrlModel(
     this.id.value,
     this.target,
     this.alias,

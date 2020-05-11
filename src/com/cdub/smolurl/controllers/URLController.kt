@@ -1,10 +1,10 @@
 package com.cdub.smolurl.controllers
 
-import com.cdub.smolurl.models.URLModel
+import com.cdub.smolurl.models.UrlModel
 import com.cdub.smolurl.models.errors.DomainBlockedException
 import com.cdub.smolurl.models.errors.InvalidInputException
 import com.cdub.smolurl.models.errors.safeCall
-import com.cdub.smolurl.services.URLService
+import com.cdub.smolurl.services.UrlService
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call
 import io.ktor.request.receiveOrNull
@@ -22,10 +22,10 @@ val domainBlacklist = try {
   emptyList<String>()
 }
 
-fun Route.url(service: URLService) {
+fun Route.url(service: UrlService) {
   route("/api/urls") {
     post {
-      val u: URLModel? = call.receiveOrNull()
+      val u: UrlModel? = call.receiveOrNull()
       safeCall {
         domainBlacklistGuard(u) {
           if (u != null) {
@@ -40,7 +40,7 @@ fun Route.url(service: URLService) {
 }
 
 private suspend fun PipelineContext<Unit, ApplicationCall>.domainBlacklistGuard(
-  model: URLModel?,
+  model: UrlModel?,
   block: suspend PipelineContext<Unit, ApplicationCall>.() -> Unit
 ) {
   if (domainBlacklist.any { model?.target?.contains(it) == true }) {

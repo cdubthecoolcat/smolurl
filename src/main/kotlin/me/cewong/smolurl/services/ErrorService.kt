@@ -1,9 +1,9 @@
 package me.cewong.smolurl.services
 
 import java.time.LocalDateTime
-import me.cewong.smolurl.models.errors.Error
-import me.cewong.smolurl.models.errors.ErrorModel
-import me.cewong.smolurl.models.errors.ErrorType
+import me.cewong.smolurl.models.Error
+import me.cewong.smolurl.models.ErrorModel
+import me.cewong.smolurl.models.ErrorType
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 object ErrorService {

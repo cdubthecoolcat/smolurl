@@ -11,8 +11,8 @@ import kotlinx.serialization.json.Json
 import me.cewong.smolurl.controllers.index
 import me.cewong.smolurl.controllers.url
 import me.cewong.smolurl.controllers.urlRedirect
+import me.cewong.smolurl.models.ErrorTable
 import me.cewong.smolurl.models.UrlTable
-import me.cewong.smolurl.models.errors.ErrorTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction

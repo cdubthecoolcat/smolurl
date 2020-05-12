@@ -10,9 +10,9 @@ import io.ktor.routing.route
 import io.ktor.util.pipeline.PipelineContext
 import java.io.File
 import java.io.FileNotFoundException
+import me.cewong.smolurl.models.ErrorType
 import me.cewong.smolurl.models.UrlModel
-import me.cewong.smolurl.models.errors.ErrorType
-import me.cewong.smolurl.models.errors.handleError
+import me.cewong.smolurl.models.handleError
 import me.cewong.smolurl.services.Error
 import me.cewong.smolurl.services.Success
 import me.cewong.smolurl.services.UrlService

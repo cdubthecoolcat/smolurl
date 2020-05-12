@@ -1,4 +1,4 @@
-package me.cewong.smolurl.models.errors
+package me.cewong.smolurl.models
 
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call
@@ -17,12 +17,12 @@ import org.jetbrains.exposed.sql.`java-time`.datetime
 
 @Serializable
 enum class ErrorType(val message: String) {
-  UNKNOWN("Unknown Error"),
-  NOT_FOUND("URL not found"),
-  INVALID_URL("Invalid URL"),
   BLOCKED_DOMAIN("Domain not permitted"),
   DUPLICATE("Entry already exists"),
-  INVALID_INPUT("Invalid input");
+  INVALID_INPUT("Invalid input"),
+  INVALID_URL("Invalid URL"),
+  NOT_FOUND("URL not found"),
+  UNKNOWN("Unknown Error")
 }
 
 @Serializable
@@ -55,11 +55,11 @@ class Error(id: EntityID<Long>) : LongEntity(id) {
 suspend fun PipelineContext<Unit, ApplicationCall>.handleError(type: ErrorType) {
   val error = ErrorService.create(ErrorModel(type = type))
   call.respond(when (type) {
-    ErrorType.INVALID_INPUT -> HttpStatusCode.BadRequest
+    ErrorType.BLOCKED_DOMAIN -> HttpStatusCode.Forbidden
     ErrorType.DUPLICATE -> HttpStatusCode.BadRequest
+    ErrorType.INVALID_INPUT -> HttpStatusCode.BadRequest
     ErrorType.INVALID_URL -> HttpStatusCode.BadRequest
     ErrorType.NOT_FOUND -> HttpStatusCode.NotFound
-    ErrorType.BLOCKED_DOMAIN -> HttpStatusCode.Forbidden
     else -> HttpStatusCode.InternalServerError
   }, mapOf("error" to error))
 }

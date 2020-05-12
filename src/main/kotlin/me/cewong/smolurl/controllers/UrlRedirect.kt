@@ -5,8 +5,8 @@ import io.ktor.response.respondRedirect
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.route
-import me.cewong.smolurl.models.errors.ErrorType
-import me.cewong.smolurl.models.errors.handleError
+import me.cewong.smolurl.models.ErrorType
+import me.cewong.smolurl.models.handleError
 import me.cewong.smolurl.services.UrlService
 
 fun Route.urlRedirect() {

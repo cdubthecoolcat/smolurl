@@ -11,9 +11,10 @@ import io.ktor.util.pipeline.PipelineContext
 import java.io.File
 import java.io.FileNotFoundException
 import me.cewong.smolurl.models.UrlModel
-import me.cewong.smolurl.models.errors.DomainBlockedException
-import me.cewong.smolurl.models.errors.InvalidInputException
-import me.cewong.smolurl.models.errors.safeCall
+import me.cewong.smolurl.models.errors.ErrorType
+import me.cewong.smolurl.models.errors.handleError
+import me.cewong.smolurl.services.Error
+import me.cewong.smolurl.services.Success
 import me.cewong.smolurl.services.UrlService
 
 val domainBlacklist = try {
@@ -22,17 +23,18 @@ val domainBlacklist = try {
   emptyList<String>()
 }
 
-fun Route.url(service: UrlService) {
+fun Route.url() {
   route("/api/urls") {
     post {
       val u: UrlModel? = call.receiveOrNull()
-      safeCall {
-        domainBlacklistGuard(u) {
-          if (u != null) {
-            call.respond(service.create(u))
-          } else {
-            throw InvalidInputException()
+      domainBlacklistGuard(u) {
+        if (u != null) {
+          when (val result = UrlService.create(u)) {
+            is Success -> call.respond(result.url)
+            is Error -> handleError(result.errorType)
           }
+        } else {
+          handleError(ErrorType.INVALID_INPUT)
         }
       }
     }
@@ -44,7 +46,7 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.domainBlacklistGuard(
   block: suspend PipelineContext<Unit, ApplicationCall>.() -> Unit
 ) {
   if (domainBlacklist.any { model?.target?.contains(it) == true }) {
-    throw DomainBlockedException()
+    handleError(ErrorType.BLOCKED_DOMAIN)
   } else {
     block()
   }

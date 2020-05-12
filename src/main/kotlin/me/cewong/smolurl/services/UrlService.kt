@@ -5,10 +5,15 @@ import java.time.LocalDateTime
 import me.cewong.smolurl.models.Url
 import me.cewong.smolurl.models.UrlModel
 import me.cewong.smolurl.models.UrlTable
-import me.cewong.smolurl.models.errors.DuplicateAliasException
+import me.cewong.smolurl.models.errors.ErrorType
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-class UrlService {
+sealed class Result
+
+class Success(val url: UrlModel) : Result()
+class Error(val errorType: ErrorType) : Result()
+
+object UrlService {
   suspend fun findAll(): List<UrlModel> = newSuspendedTransaction {
     Url.all().map { it.toModel() }
   }
@@ -26,21 +31,21 @@ class UrlService {
     }.firstOrNull()?.toModel()
   }
 
-  suspend fun create(url: UrlModel): UrlModel = newSuspendedTransaction {
+  suspend fun create(url: UrlModel): Result = newSuspendedTransaction {
     val newAlias = if (url.alias.isNotBlank()) url.alias else hash(url.target).substring(0, 6)
     val existingUrl = findByAlias(newAlias)
 
-    // if custom alias is supplied and that alias is already associated with a target, throw exception unless target is the same
+    // if custom alias is supplied and that alias is already associated with a target, handle error unless target is the same
     if (url.alias.isNotBlank() && existingUrl != null && existingUrl.target != url.target) {
-      throw DuplicateAliasException()
+      Error(ErrorType.DUPLICATE)
+    } else {
+      Success(existingUrl ?: Url.new {
+        target = url.target
+        alias = newAlias
+        createdAt = LocalDateTime.now()
+        updatedAt = LocalDateTime.now()
+      }.toModel())
     }
-
-    existingUrl ?: Url.new {
-      target = url.target
-      alias = newAlias
-      createdAt = LocalDateTime.now()
-      updatedAt = LocalDateTime.now()
-    }.toModel()
   }
 
   suspend fun update(url: UrlModel): UrlModel = newSuspendedTransaction {

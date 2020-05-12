@@ -6,7 +6,7 @@ import me.cewong.smolurl.models.errors.ErrorModel
 import me.cewong.smolurl.models.errors.ErrorType
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
-class ErrorService {
+object ErrorService {
   suspend fun findAll(): List<ErrorModel> = newSuspendedTransaction {
     Error.all().map { it.toModel() }
   }

@@ -13,8 +13,6 @@ import me.cewong.smolurl.controllers.url
 import me.cewong.smolurl.controllers.urlRedirect
 import me.cewong.smolurl.models.UrlTable
 import me.cewong.smolurl.models.errors.ErrorTable
-import me.cewong.smolurl.services.ErrorService
-import me.cewong.smolurl.services.UrlService
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -41,12 +39,10 @@ fun Application.module() {
     SchemaUtils.create(UrlTable)
     SchemaUtils.create(ErrorTable)
   }
-  val urlService = UrlService()
-  val errorService = ErrorService()
 
   install(Routing) {
     index()
-    url(urlService)
-    urlRedirect(urlService)
+    url()
+    urlRedirect()
   }
 }

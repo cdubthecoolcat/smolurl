@@ -1,28 +1,26 @@
 package me.cewong.smolurl.controllers
 
 import io.ktor.application.call
-import io.ktor.features.NotFoundException
 import io.ktor.response.respondRedirect
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.route
-import me.cewong.smolurl.models.errors.safeCall
+import me.cewong.smolurl.models.errors.ErrorType
+import me.cewong.smolurl.models.errors.handleError
 import me.cewong.smolurl.services.UrlService
 
-fun Route.urlRedirect(service: UrlService) {
+fun Route.urlRedirect() {
   route("/{alias}") {
     get {
-      safeCall {
-        val alias = call.parameters["alias"]
-        var target: String? = null
-        if (alias != null) {
-          target = service.findByAlias(alias)?.target
-        }
-        if (target != null)
-          call.respondRedirect(if (target.startsWith("http://") || target.startsWith("https://")) target else "https://$target")
-        else {
-          throw NotFoundException()
-        }
+      val alias = call.parameters["alias"]
+      var target: String? = null
+      if (alias != null) {
+        target = UrlService.findByAlias(alias)?.target
+      }
+      if (target != null)
+        call.respondRedirect(if (target.startsWith("http://") || target.startsWith("https://")) target else "https://$target")
+      else {
+        handleError(ErrorType.NOT_FOUND)
       }
     }
   }

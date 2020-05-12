@@ -2,12 +2,12 @@ package me.cewong.smolurl.models.errors
 
 import io.ktor.application.ApplicationCall
 import io.ktor.application.call
-import io.ktor.features.NotFoundException
 import io.ktor.http.HttpStatusCode
 import io.ktor.response.respond
 import io.ktor.util.pipeline.PipelineContext
 import java.time.LocalDateTime
 import kotlinx.serialization.Serializable
+import me.cewong.smolurl.services.ErrorService
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -52,22 +52,14 @@ class Error(id: EntityID<Long>) : LongEntity(id) {
   )
 }
 
-suspend fun PipelineContext<Unit, ApplicationCall>.safeCall(
-  block: suspend PipelineContext<Unit, ApplicationCall>.() -> Unit
-) {
-  try {
-    block()
-  } catch (ex: Exception) {
-    val exModel = ex.toErrorModel()
-    call.respond(exModel.first, mapOf("error" to exModel.second))
-  }
-}
-
-fun Exception.toErrorModel(): Pair<HttpStatusCode, ErrorModel> = when (this) {
-  is InvalidUrlException -> Pair(HttpStatusCode.BadRequest, ErrorModel(type = ErrorType.INVALID_URL))
-  is DuplicateAliasException -> Pair(HttpStatusCode.BadRequest, ErrorModel(type = ErrorType.DUPLICATE))
-  is InvalidInputException -> Pair(HttpStatusCode.BadRequest, ErrorModel(type = ErrorType.INVALID_INPUT))
-  is NotFoundException -> Pair(HttpStatusCode.NotFound, ErrorModel(type = ErrorType.NOT_FOUND))
-  is DomainBlockedException -> Pair(HttpStatusCode.Forbidden, ErrorModel(type = ErrorType.BLOCKED_DOMAIN))
-  else -> Pair(HttpStatusCode.InternalServerError, ErrorModel(type = ErrorType.UNKNOWN))
+suspend fun PipelineContext<Unit, ApplicationCall>.handleError(type: ErrorType) {
+  val error = ErrorService.create(ErrorModel(type = type))
+  call.respond(when (type) {
+    ErrorType.INVALID_INPUT -> HttpStatusCode.BadRequest
+    ErrorType.DUPLICATE -> HttpStatusCode.BadRequest
+    ErrorType.INVALID_URL -> HttpStatusCode.BadRequest
+    ErrorType.NOT_FOUND -> HttpStatusCode.NotFound
+    ErrorType.BLOCKED_DOMAIN -> HttpStatusCode.Forbidden
+    else -> HttpStatusCode.InternalServerError
+  }, mapOf("error" to error))
 }

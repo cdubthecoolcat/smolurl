@@ -19,10 +19,9 @@ object UrlService {
   }
 
   suspend fun find(id: Long?): UrlModel = newSuspendedTransaction {
-    if (id != null) {
-      Url[id].toModel()
-    }
-    UrlModel(target = "", alias = "", createdAt = "", updatedAt = "")
+    id?.let {
+      Url[it].toModel()
+    } ?: UrlModel(target = "", alias = "")
   }
 
   suspend fun findByAlias(alias: String): UrlModel? = newSuspendedTransaction {
@@ -35,8 +34,11 @@ object UrlService {
     val newAlias = if (url.alias.isNotBlank()) url.alias else hash(url.target).substring(0, 6)
     val existingUrl = findByAlias(newAlias)
 
-    // if custom alias is supplied and that alias is already associated with a target, handle error unless target is the same
-    if (url.alias.isNotBlank() && existingUrl != null && existingUrl.target != url.target) {
+    if (url.target.isBlank()) {
+      Error(ErrorType.INVALID_INPUT)
+
+      // if custom alias is supplied and that alias is already associated with a target, handle error unless target is the same
+    } else if (url.alias.isNotBlank() && existingUrl != null && existingUrl.target != url.target) {
       Error(ErrorType.DUPLICATE)
     } else {
       Success(existingUrl ?: Url.new {

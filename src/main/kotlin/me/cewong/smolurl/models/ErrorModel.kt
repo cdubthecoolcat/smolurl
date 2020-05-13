@@ -29,13 +29,15 @@ enum class ErrorType(val message: String) {
 data class ErrorModel(
   val id: Long? = null,
   val type: ErrorType,
+  val metadata: String,
   val timestamp: String? = null
 ) {
   val message: String = type.message
 }
 
 object ErrorTable : LongIdTable("errors") {
-  val type: Column<String> = varchar("type", 255)
+  val type: Column<String> = varchar("type", 64)
+  val metadata: Column<String> = text("metadata")
   val timestamp: Column<LocalDateTime> = datetime("timestamp")
 }
 
@@ -43,17 +45,19 @@ class Error(id: EntityID<Long>) : LongEntity(id) {
   companion object : LongEntityClass<Error>(ErrorTable)
 
   var type by ErrorTable.type
+  var metadata by ErrorTable.metadata
   var timestamp by ErrorTable.timestamp
 
   fun toModel(): ErrorModel = ErrorModel(
     this.id.value,
     ErrorType.valueOf(type),
+    metadata,
     timestamp.toString()
   )
 }
 
-suspend fun PipelineContext<Unit, ApplicationCall>.handleError(type: ErrorType) {
-  val error = ErrorService.create(ErrorModel(type = type))
+suspend fun PipelineContext<Unit, ApplicationCall>.handleError(type: ErrorType, metadata: String = "") {
+  val error = ErrorService.create(ErrorModel(type = type, metadata = metadata))
   call.respond(when (type) {
     ErrorType.BLOCKED_DOMAIN -> HttpStatusCode.Forbidden
     ErrorType.DUPLICATE -> HttpStatusCode.BadRequest

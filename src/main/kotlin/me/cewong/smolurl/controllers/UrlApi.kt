@@ -16,6 +16,7 @@ import me.cewong.smolurl.models.handleError
 import me.cewong.smolurl.services.Error
 import me.cewong.smolurl.services.Success
 import me.cewong.smolurl.services.UrlService
+import me.cewong.smolurl.utils.json
 
 val domainBlacklist = try {
   File("blacklist").useLines { it.toList() }
@@ -26,12 +27,12 @@ val domainBlacklist = try {
 fun Route.url() {
   route("/api/urls") {
     post {
-      val u: UrlModel? = call.receiveOrNull()
-      domainBlacklistGuard(u) {
-        if (u != null) {
-          when (val result = UrlService.create(u)) {
+      val newUrl: UrlModel? = call.receiveOrNull()
+      domainBlacklistGuard(newUrl) {
+        if (newUrl != null) {
+          when (val result = UrlService.create(newUrl)) {
             is Success -> call.respond(result.url)
-            is Error -> handleError(result.errorType)
+            is Error -> handleError(result.errorType, json.stringify(UrlModel.serializer(), newUrl))
           }
         } else {
           handleError(ErrorType.INVALID_INPUT)
@@ -46,7 +47,11 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.domainBlacklistGuard(
   block: suspend PipelineContext<Unit, ApplicationCall>.() -> Unit
 ) {
   if (domainBlacklist.any { model?.target?.contains(it) == true }) {
-    handleError(ErrorType.BLOCKED_DOMAIN)
+    if (model != null) {
+      handleError(ErrorType.BLOCKED_DOMAIN, json.stringify(UrlModel.serializer(), model))
+    } else {
+      handleError(ErrorType.BLOCKED_DOMAIN)
+    }
   } else {
     block()
   }

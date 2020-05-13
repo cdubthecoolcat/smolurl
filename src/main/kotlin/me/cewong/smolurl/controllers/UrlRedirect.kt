@@ -13,13 +13,14 @@ fun Route.urlRedirect() {
   route("/{alias}") {
     get {
       val alias = call.parameters["alias"]
-      var target: String? = null
-      alias?.let {
-        target = UrlService.findByAlias(it)?.target
+      val target = alias?.let {
+        UrlService.findByAlias(it)?.target
       }
-      target?.let {
-        call.respondRedirect(if (it.startsWith("http://") || it.startsWith("https://")) it else "https://$it")
-      } ?: handleError(ErrorType.NOT_FOUND, alias!!)
+      if (target != null) {
+        call.respondRedirect(if (target.startsWith("http://") || target.startsWith("https://")) target else "https://$target")
+      } else {
+        handleError(ErrorType.NOT_FOUND, alias!!)
+      }
     }
   }
 }

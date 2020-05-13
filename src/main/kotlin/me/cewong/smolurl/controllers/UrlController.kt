@@ -8,11 +8,11 @@ import io.ktor.routing.Route
 import io.ktor.routing.post
 import io.ktor.routing.route
 import io.ktor.util.pipeline.PipelineContext
-import kotlinx.serialization.SerializationStrategy
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.serializer
 import java.io.File
 import java.io.FileNotFoundException
+import kotlinx.serialization.UnstableDefault
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.serializer
 import me.cewong.smolurl.models.ErrorType
 import me.cewong.smolurl.models.UrlModel
 import me.cewong.smolurl.models.handleError
@@ -26,6 +26,7 @@ val domainBlacklist = try {
   emptyList<String>()
 }
 
+@UnstableDefault
 fun Route.url() {
   route("/api/urls") {
     post {
@@ -42,6 +43,7 @@ fun Route.url() {
   }
 }
 
+@UnstableDefault
 private suspend fun PipelineContext<Unit, ApplicationCall>.domainBlacklistGuard(
   model: UrlModel?,
   block: suspend PipelineContext<Unit, ApplicationCall>.() -> Unit

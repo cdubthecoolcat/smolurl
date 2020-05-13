@@ -5,10 +5,7 @@ import io.ktor.response.respondRedirect
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.route
-import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.json.Json
 import me.cewong.smolurl.models.ErrorType
-import me.cewong.smolurl.models.UrlModel
 import me.cewong.smolurl.models.handleError
 import me.cewong.smolurl.services.UrlService
 

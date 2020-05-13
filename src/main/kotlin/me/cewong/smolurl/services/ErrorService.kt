@@ -12,15 +12,15 @@ object ErrorService {
   }
 
   suspend fun find(id: Long?): ErrorModel = newSuspendedTransaction {
-    if (id != null) {
-      Error[id].toModel()
-    }
-    ErrorModel(type = ErrorType.DUPLICATE, timestamp = "")
+    id?.let {
+      Error[it].toModel()
+    } ?: ErrorModel(type = ErrorType.UNKNOWN, metadata = "")
   }
 
   suspend fun create(error: ErrorModel): ErrorModel = newSuspendedTransaction {
     Error.new {
       type = error.type.toString()
+      metadata = error.metadata
       timestamp = LocalDateTime.now()
     }.toModel()
   }
@@ -28,6 +28,7 @@ object ErrorService {
   suspend fun update(error: ErrorModel): ErrorModel = newSuspendedTransaction {
     val e = Error[error.id!!]
     e.type = error.type.toString()
+    e.metadata = error.metadata
     e.timestamp = LocalDateTime.now()
     e.toModel()
   }

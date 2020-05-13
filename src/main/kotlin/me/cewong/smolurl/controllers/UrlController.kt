@@ -8,6 +8,9 @@ import io.ktor.routing.Route
 import io.ktor.routing.post
 import io.ktor.routing.route
 import io.ktor.util.pipeline.PipelineContext
+import kotlinx.serialization.SerializationStrategy
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.serializer
 import java.io.File
 import java.io.FileNotFoundException
 import me.cewong.smolurl.models.ErrorType
@@ -28,14 +31,12 @@ fun Route.url() {
     post {
       val u: UrlModel? = call.receiveOrNull()
       domainBlacklistGuard(u) {
-        if (u != null) {
+        u?.let {
           when (val result = UrlService.create(u)) {
             is Success -> call.respond(result.url)
-            is Error -> handleError(result.errorType)
+            is Error -> handleError(result.errorType, Json.stringify(UrlModel.serializer(), u))
           }
-        } else {
-          handleError(ErrorType.INVALID_INPUT)
-        }
+        } ?: handleError(ErrorType.INVALID_INPUT)
       }
     }
   }
@@ -46,7 +47,9 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.domainBlacklistGuard(
   block: suspend PipelineContext<Unit, ApplicationCall>.() -> Unit
 ) {
   if (domainBlacklist.any { model?.target?.contains(it) == true }) {
-    handleError(ErrorType.BLOCKED_DOMAIN)
+    model?.let {
+      handleError(ErrorType.BLOCKED_DOMAIN, Json.stringify(UrlModel.serializer(), it))
+    } ?: handleError(ErrorType.BLOCKED_DOMAIN)
   } else {
     block()
   }

@@ -23,7 +23,7 @@ import me.cewong.smolurl.services.UrlService
 val domainBlacklist = try {
   File("blacklist").useLines { it.toList() }
 } catch (ex: FileNotFoundException) {
-  emptyList()
+  emptyList<String>()
 }
 
 @UnstableDefault

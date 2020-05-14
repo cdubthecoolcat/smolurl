@@ -13,7 +13,7 @@ RUN chown -R $APPLICATION_USER /app
 USER $APPLICATION_USER
 
 # We copy the FAT Jar we built into the /app folder and sets that folder as the working directory.
-COPY ./build/libs/smolurl-0.0.1-all.jar /app/smolurl.jar
+COPY ./server/build/libs/smolurl-0.0.1-all.jar /app/smolurl.jar
 RUN mkdir /app/web
 COPY ./web/build/ /app/web/build
 COPY server/blacklist /app/blacklist

@@ -39,12 +39,6 @@ dependencies {
   testImplementation("io.ktor", "ktor-server-tests", ktorVersion)
 }
 
-task("buildReact", Exec::class) {
-  workingDir("$workingDir/web")
-  inputs.dir("$workingDir/src")
-  commandLine("yarn", "build")
-}
-
 task("dockerUp", Exec::class) {
   setDependsOn(listOf("build", "buildReact"))
   workingDir(rootDir)

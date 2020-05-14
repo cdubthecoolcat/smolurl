@@ -6,3 +6,8 @@ allprojects {
     maven("https://kotlin.bintray.com/ktor")
   }
 }
+
+task("buildReact", Exec::class) {
+  workingDir("$rootDir/web")
+  commandLine("yarn", "build")
+}

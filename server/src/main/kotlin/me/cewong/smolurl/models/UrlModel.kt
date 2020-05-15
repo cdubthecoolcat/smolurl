@@ -25,12 +25,11 @@ class Url(id: EntityID<Long>) : LongEntity(id) {
   var createdAt by UrlTable.createdAt
   var updatedAt by UrlTable.updatedAt
 
-  fun toModel(): UrlModel =
-    UrlModel(
-      this.id.value,
-      this.target,
-      this.alias,
-      this.createdAt.toString(),
-      this.updatedAt.toString()
-    )
+  fun toModel(): UrlModel = UrlModel(
+    this.id.value,
+    this.target,
+    this.alias,
+    this.createdAt.toString(),
+    this.updatedAt.toString()
+  )
 }

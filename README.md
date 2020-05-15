@@ -6,9 +6,9 @@ A simple url shortener.
 
 ## Building
 
-Clone the repository and its submodules:
+Clone the repository:
 ```
-$ git clone --recursive https://github.com/cdubthecoolcat/smolurl
+$ git clone https://github.com/cdubthecoolcat/smolurl
 ```
 Be sure to install dependencies for the frontend:
 ```

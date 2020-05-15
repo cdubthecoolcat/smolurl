@@ -21,4 +21,5 @@ fun main(args: Array<String>) {
   parser.parse(args)
   println("Target: $target")
   println("Alias: $alias")
+  // TODO Make request and shorten url
 }

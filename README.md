@@ -20,7 +20,7 @@ $ ./gradlew build
 ```
 
 ## Running
-Make sure you have a local PostgreSQL server running.
+Make sure you have a local PostgreSQL server running on port 5432.
 Then run
 ```
 $ ./gradlew run
@@ -37,4 +37,4 @@ Then run
 $ ./gradlew dockerUp
 ```
 
-This will package the server into a JAR located at `./build/libs`, build the React frontend, and then copy the artifacts to a Docker container called `app`. A separate Docker container for Postgres will be created as well.
+This will package the server into a JAR located at `./server/build/libs`, build the React frontend, and then copy the artifacts to a Docker container called `app`. A separate Docker container for Postgres will be created as well.

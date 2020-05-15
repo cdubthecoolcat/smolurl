@@ -44,7 +44,7 @@ jobs:
       - run: ./gradlew :<< parameters.module >>:build :<< parameters.module >>:shadowJar
 
       - store_artifacts:
-          path: << parameters.module >>/build/libs
+          path: << parameters.module >>/build/libs/*-all.jar
 
 workflows:
   version: 2

@@ -4,7 +4,10 @@
 #
 version: 2.1
 jobs:
-  build:
+  build_module:
+    parameters:
+      module:
+        type: string
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
@@ -38,7 +41,18 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle.kts" }}
 
-      - run: ./gradlew build
+      - run: ./gradlew :<< parameters.module >>:build :<< parameters.module >>:shadowJar
 
       - store_artifacts:
-          path: server/build/libs
+          path: << parameters.module >>/build/libs
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build_module:
+          name: build_server
+          module: server
+      - build_module:
+          name: build_cli
+          module: cli

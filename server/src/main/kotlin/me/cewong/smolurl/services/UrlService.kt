@@ -2,9 +2,9 @@ package me.cewong.smolurl.services
 
 import java.security.MessageDigest
 import java.time.LocalDateTime
+import me.cewong.smolurl.model.UrlModel
 import me.cewong.smolurl.models.ErrorType
 import me.cewong.smolurl.models.Url
-import me.cewong.smolurl.models.UrlModel
 import me.cewong.smolurl.models.UrlTable
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 

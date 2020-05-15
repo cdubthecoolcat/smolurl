@@ -3,6 +3,16 @@ package me.cewong.smolurl.cli
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.required
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
+import me.cewong.smolurl.model.UrlModel
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+
+private const val BASE_URL = "http://smolurl.cewong.me"
+private val json = Json(JsonConfiguration.Stable.copy(unquotedPrint = true))
 
 fun main(args: Array<String>) {
   val parser = ArgParser("smolurl")
@@ -19,7 +29,31 @@ fun main(args: Array<String>) {
     description = "The custom alias to use"
   )
   parser.parse(args)
-  println("Target: $target")
-  println("Alias: $alias")
-  // TODO Make request and shorten url
+
+  val okHttpClient = OkHttpClient()
+  val requestBody = """
+    {
+        alias: "${alias ?: ""}",
+        target: "$target"
+    }
+  """.toRequestBody("application/json".toMediaType())
+  val request = Request.Builder()
+    .url("$BASE_URL/api/urls")
+    .post(requestBody)
+    .build()
+  try {
+    val response = okHttpClient.newCall(request).execute()
+    val responseBody = response.body?.string()
+
+    println(
+      if (response.isSuccessful && responseBody != null) {
+        val model = json.parse<UrlModel>(UrlModel.serializer(), responseBody)
+        "$BASE_URL/${model.alias}"
+      } else {
+        "Error shortening url: $target"
+      }
+    )
+  } catch (ex: Exception) {
+    println("Error shortening url: $target")
+  }
 }

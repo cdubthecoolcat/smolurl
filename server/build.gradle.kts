@@ -9,9 +9,9 @@ val postgresqlVersion: String by project
 plugins {
   application
   id("org.jlleitschuh.gradle.ktlint")
-  id("com.github.johnrengelman.shadow") version "5.2.0"
+  id("com.github.johnrengelman.shadow")
   kotlin("jvm")
-  kotlin("plugin.serialization") version "1.3.72"
+  kotlin("plugin.serialization")
 }
 
 group = "me.cewong.smolurl"
@@ -26,6 +26,7 @@ tasks.withType(ShadowJar::class) {
 }
 
 dependencies {
+  implementation(project(":model"))
   implementation("ch.qos.logback", "logback-classic", logbackVersion)
   implementation("org.jetbrains.kotlin", "kotlin-stdlib-jdk8", kotlinVersion)
   implementation("io.ktor", "ktor-server-netty", ktorVersion)

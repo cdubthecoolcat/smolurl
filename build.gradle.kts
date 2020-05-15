@@ -23,5 +23,6 @@ task("dockerUp", Exec::class) {
 task("buildReact", Exec::class) {
   workingDir("$rootDir/web")
   inputs.dir("$rootDir/web/src")
+  outputs.dir("$rootDir/web/build")
   commandLine("yarn", "build")
 }

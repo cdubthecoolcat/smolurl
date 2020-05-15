@@ -54,8 +54,7 @@ jobs:
       name: node/default
     steps:
       - checkout
-      - run: cd ./web && yarn install --frozen-lockfile
-      - run: cd ./web && yarn build
+      - run: ./gradlew buildWeb
 
 workflows:
   version: 2

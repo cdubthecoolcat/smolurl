@@ -20,9 +20,17 @@ task("dockerUp", Exec::class) {
   commandLine("docker-compose", "up", "--build")
 }
 
-task("buildReact", Exec::class) {
+task("webDependencies", Exec::class) {
   workingDir("$rootDir/web")
-  inputs.dir("$rootDir/web/src")
-  outputs.dir("$rootDir/web/build")
+  inputs.file("$workingDir/yarn.lock")
+  outputs.dir("$workingDir/node_modules")
+  commandLine("yarn", "install", "--frozen-lockfile")
+}
+
+task("buildWeb", Exec::class) {
+  setDependsOn(listOf("webDependencies"))
+  workingDir("$rootDir/web")
+  inputs.dir("$workingDir/src")
+  outputs.dir("$workingDir/build")
   commandLine("yarn", "build")
 }

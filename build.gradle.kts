@@ -12,8 +12,14 @@ plugins {
   kotlin("jvm") version "1.3.72"
 }
 
+task("dockerUp", Exec::class) {
+  setDependsOn(listOf(":server:build", "buildReact"))
+  workingDir(rootDir)
+  commandLine("docker-compose", "up", "--build")
+}
+
 task("buildReact", Exec::class) {
   workingDir("$rootDir/web")
-  inputs.dir("$rootDir/server/src")
+  inputs.dir("$rootDir/web/src")
   commandLine("yarn", "build")
 }

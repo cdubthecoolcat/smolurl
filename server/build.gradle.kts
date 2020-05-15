@@ -39,12 +39,6 @@ dependencies {
   testImplementation("io.ktor", "ktor-server-tests", ktorVersion)
 }
 
-task("dockerUp", Exec::class) {
-  setDependsOn(listOf("build", "buildReact"))
-  workingDir(rootDir)
-  commandLine("docker-compose", "up", "--build")
-}
-
 kotlin.sourceSets["main"].kotlin.srcDirs("src")
 kotlin.sourceSets["test"].kotlin.srcDirs("test")
 

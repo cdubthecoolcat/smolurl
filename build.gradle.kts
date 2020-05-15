@@ -9,5 +9,6 @@ allprojects {
 
 task("buildReact", Exec::class) {
   workingDir("$rootDir/web")
+  inputs.dir("$rootDir/server/src")
   commandLine("yarn", "build")
 }

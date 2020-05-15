@@ -10,18 +10,9 @@ Clone the repository:
 ```
 $ git clone https://github.com/cdubthecoolcat/smolurl
 ```
-Be sure to install dependencies for the frontend:
+Build the front end (requires [`yarn`](https://yarnpkg.com/))
 ```
-$ cd ./web
-$ yarn install
-```
-Build the front end using yarn:
-```
-$ yarn build
-```
-or with the gradle wrapper:
-```
-$ ./gradlew buildReact
+$ ./gradlew buildWeb
 ```
 Build the backend:
 ```

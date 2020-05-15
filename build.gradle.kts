@@ -15,7 +15,7 @@ plugins {
 }
 
 task("dockerUp", Exec::class) {
-  setDependsOn(listOf(":server:build", "buildReact"))
+  setDependsOn(listOf(":server:build", "buildWeb"))
   workingDir(rootDir)
   commandLine("docker-compose", "up", "--build")
 }

@@ -1,22 +1,13 @@
 package me.cewong.smolurl.models
 
 import java.time.LocalDateTime
-import kotlinx.serialization.Serializable
+import me.cewong.smolurl.model.UrlModel
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.LongIdTable
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.`java-time`.datetime
-
-@Serializable
-data class UrlModel(
-  val id: Long? = null,
-  val target: String,
-  val alias: String,
-  val createdAt: String? = null,
-  val updatedAt: String? = null
-)
 
 object UrlTable : LongIdTable("urls") {
   val target: Column<String> = varchar("target", 255)
@@ -34,11 +25,12 @@ class Url(id: EntityID<Long>) : LongEntity(id) {
   var createdAt by UrlTable.createdAt
   var updatedAt by UrlTable.updatedAt
 
-  fun toModel(): UrlModel = UrlModel(
-    this.id.value,
-    this.target,
-    this.alias,
-    this.createdAt.toString(),
-    this.updatedAt.toString()
-  )
+  fun toModel(): UrlModel =
+    UrlModel(
+      this.id.value,
+      this.target,
+      this.alias,
+      this.createdAt.toString(),
+      this.updatedAt.toString()
+    )
 }

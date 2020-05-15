@@ -11,11 +11,8 @@ plugins {
 }
 
 dependencies {
-  implementation(project(":model"))
   implementation(kotlin("stdlib-jdk8"))
-  implementation("org.jetbrains.kotlinx:kotlinx-cli:0.2.1")
   implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
-  implementation("com.squareup.okhttp3:okhttp:4.6.0")
 }
 
 tasks.withType(KotlinCompile::class) {

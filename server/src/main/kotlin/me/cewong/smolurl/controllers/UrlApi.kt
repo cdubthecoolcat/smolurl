@@ -12,10 +12,10 @@ import java.io.File
 import java.io.FileNotFoundException
 import me.cewong.smolurl.model.UrlModel
 import me.cewong.smolurl.models.ErrorType
-import me.cewong.smolurl.models.handleError
 import me.cewong.smolurl.services.Error
 import me.cewong.smolurl.services.Success
 import me.cewong.smolurl.services.UrlService
+import me.cewong.smolurl.utils.handleError
 import me.cewong.smolurl.utils.json
 
 val domainBlacklist = try {

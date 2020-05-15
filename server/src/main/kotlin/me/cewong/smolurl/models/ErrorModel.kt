@@ -1,13 +1,7 @@
 package me.cewong.smolurl.models
 
-import io.ktor.application.ApplicationCall
-import io.ktor.application.call
-import io.ktor.http.HttpStatusCode
-import io.ktor.response.respond
-import io.ktor.util.pipeline.PipelineContext
 import java.time.LocalDateTime
 import kotlinx.serialization.Serializable
-import me.cewong.smolurl.services.ErrorService
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -54,16 +48,4 @@ class Error(id: EntityID<Long>) : LongEntity(id) {
     metadata,
     timestamp.toString()
   )
-}
-
-suspend fun PipelineContext<Unit, ApplicationCall>.handleError(type: ErrorType, metadata: String = "") {
-  val error = ErrorService.create(ErrorModel(type = type, metadata = metadata))
-  call.respond(when (type) {
-    ErrorType.BLOCKED_DOMAIN -> HttpStatusCode.Forbidden
-    ErrorType.DUPLICATE -> HttpStatusCode.BadRequest
-    ErrorType.INVALID_INPUT -> HttpStatusCode.BadRequest
-    ErrorType.INVALID_URL -> HttpStatusCode.BadRequest
-    ErrorType.NOT_FOUND -> HttpStatusCode.NotFound
-    else -> HttpStatusCode.InternalServerError
-  }, mapOf("error" to error))
 }

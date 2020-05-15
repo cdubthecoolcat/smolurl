@@ -1,3 +1,4 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 repositories {
@@ -6,8 +7,16 @@ repositories {
 
 plugins {
   id("org.jlleitschuh.gradle.ktlint")
+  id("com.github.johnrengelman.shadow")
   kotlin("jvm")
   kotlin("plugin.serialization")
+}
+
+tasks.withType(ShadowJar::class) {
+  archiveBaseName.set("smolurl-cli")
+  manifest {
+    attributes["Main-Class"] = "me.cewong.smolurl.cli.CliKt"
+  }
 }
 
 dependencies {

@@ -9,7 +9,7 @@ val postgresqlVersion: String by project
 plugins {
   application
   id("org.jlleitschuh.gradle.ktlint")
-  id("com.github.johnrengelman.shadow") version "5.2.0"
+  id("com.github.johnrengelman.shadow")
   kotlin("jvm")
   kotlin("plugin.serialization")
 }

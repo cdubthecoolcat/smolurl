@@ -48,9 +48,6 @@ jobs:
           path: << parameters.module >>/build/libs
 
   build_web:
-    parameters:
-      module:
-        type: string
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk-node

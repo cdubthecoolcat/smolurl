@@ -43,7 +43,7 @@ Make sure you have [docker-compose](https://docs.docker.com/compose/) installed.
 Then run
 
 ```
-$ ./gradlew composeUp
+$ ./gradlew dockerUp
 ```
 
 This will package the server into a JAR located at `./build/libs`, build the React frontend, and then copy the artifacts to a Docker container called `app`. A separate Docker container for Postgres will be created as well.

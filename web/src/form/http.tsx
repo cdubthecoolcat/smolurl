@@ -1,8 +1,3 @@
-interface UrlPostData {
-  alias: string;
-  target: string;
-};
-
 export const submitUrl = async (url: UrlPostData) => {
   const response = await fetch('/api/urls', {
     method: 'POST',

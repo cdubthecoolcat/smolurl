@@ -10,20 +10,6 @@ enum urlInputError {
   INVALID_INPUT
 };
 
-interface UrlFormProps {
-  setNewUrlText: Function;
-};
-
-interface UrlState {
-  text: string;
-  hasError: boolean;
-  errorMessage: string;
-};
-
-interface AliasState extends UrlState {
-  visible: boolean;
-};
-
 function UrlForm(props: UrlFormProps) {
   const [url, setUrl] = React.useState<UrlState>({
     text: '',

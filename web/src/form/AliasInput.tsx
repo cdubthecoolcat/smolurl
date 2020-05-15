@@ -1,14 +1,6 @@
 import { Checkbox, Collapse, FormControlLabel, TextField } from '@material-ui/core';
 import React from 'react';
 
-interface AliasInputProps {
-  text: string;
-  hasError: boolean;
-  visible: boolean;
-  errorText: string;
-  setAlias: Function;
-}
-
 function AliasInput(props: AliasInputProps) {
   const checkBox = (
     <Checkbox

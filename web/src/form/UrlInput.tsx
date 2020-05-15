@@ -1,13 +1,6 @@
 import { TextField } from '@material-ui/core';
 import React from 'react';
 
-interface UrlInputProps {
-  text: string;
-  hasError: boolean;
-  errorText: string;
-  setUrl: Function
-};
-
 function UrlInput(props: UrlInputProps) {
   return (
     <TextField

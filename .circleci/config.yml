@@ -3,6 +3,9 @@
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
 version: 2.1
+orbs:
+  node: circleci/node@2.1.1
+
 jobs:
   build_module:
     parameters:
@@ -46,6 +49,14 @@ jobs:
       - store_artifacts:
           path: << parameters.module >>/build/libs
 
+  build_web:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - run: cd ./web && yarn install --frozen-lockfile
+      - run: cd ./web && yarn build
+
 workflows:
   version: 2
   build:
@@ -56,3 +67,4 @@ workflows:
       - build_module:
           name: build_cli
           module: cli
+      - build_web

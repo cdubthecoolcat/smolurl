@@ -42,7 +42,7 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle.kts" }}
 
-      - run: ./gradlew :<< parameters.module >>:build :<< parameters.module >>:shadowJar
+      - run: ./gradlew :<< parameters.module >>:build
 
       - store_artifacts:
           path: << parameters.module >>/build/libs

@@ -6,17 +6,19 @@ repositories {
 }
 
 plugins {
+  application
   id("org.jlleitschuh.gradle.ktlint")
   id("com.github.johnrengelman.shadow")
   kotlin("jvm")
   kotlin("plugin.serialization")
 }
 
+application {
+  mainClassName = "me.cewong.smolurl.cli.CliKt"
+}
+
 tasks.withType(ShadowJar::class) {
   archiveBaseName.set("smolurl-cli")
-  manifest {
-    attributes["Main-Class"] = "me.cewong.smolurl.cli.CliKt"
-  }
 }
 
 dependencies {

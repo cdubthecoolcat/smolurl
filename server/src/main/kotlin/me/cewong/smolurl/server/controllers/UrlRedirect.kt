@@ -1,13 +1,13 @@
-package me.cewong.smolurl.controllers
+package me.cewong.smolurl.server.controllers
 
 import io.ktor.application.call
 import io.ktor.response.respondRedirect
 import io.ktor.routing.Route
 import io.ktor.routing.get
 import io.ktor.routing.route
-import me.cewong.smolurl.models.ErrorType
-import me.cewong.smolurl.services.UrlService
-import me.cewong.smolurl.utils.handleError
+import me.cewong.smolurl.server.models.ErrorType
+import me.cewong.smolurl.server.services.UrlService
+import me.cewong.smolurl.server.utils.handleError
 
 fun Route.urlRedirect() {
   route("/{alias}") {

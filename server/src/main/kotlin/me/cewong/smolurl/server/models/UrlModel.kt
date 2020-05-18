@@ -1,7 +1,7 @@
-package me.cewong.smolurl.models
+package me.cewong.smolurl.server.models
 
 import java.time.LocalDateTime
-import me.cewong.smolurl.model.UrlModel
+import me.cewong.smolurl.models.UrlModel
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

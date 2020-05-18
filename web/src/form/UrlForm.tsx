@@ -4,8 +4,8 @@ import AliasInput from './AliasInput';
 import { submitUrl } from './http';
 import UrlInput from './UrlInput';
 
-enum urlInputError {
-  INVALID_Url,
+enum UrlInputError {
+  INVALID_URL,
   BLOCKED_DOMAIN,
   INVALID_INPUT
 };
@@ -34,12 +34,20 @@ function UrlForm(props: UrlFormProps) {
 
   const updateErrors = (data: any) => {
     if (data.error) {
-      if (urlInputError[data.error.type] !== undefined) {
+      if (UrlInputError[data.error.type] !== undefined) {
         updateUrl({
           hasError: true,
           errorMessage: data.error.message
         });
+        updateAlias({
+          hasError: false,
+          errorMessage: ''
+        });
       } else {
+        updateUrl({
+          hasError: false,
+          errorMessage: ''
+        });
         updateAlias({
           hasError: true,
           errorMessage: data.error.message

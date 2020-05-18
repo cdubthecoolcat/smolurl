@@ -14,6 +14,7 @@ suspend fun PipelineContext<Unit, ApplicationCall>.handleError(type: ErrorType, 
   call.respond(when (type) {
     ErrorType.BLOCKED_DOMAIN -> HttpStatusCode.Forbidden
     ErrorType.DUPLICATE -> HttpStatusCode.BadRequest
+    ErrorType.INVALID_ALIAS -> HttpStatusCode.BadRequest
     ErrorType.INVALID_INPUT -> HttpStatusCode.BadRequest
     ErrorType.INVALID_URL -> HttpStatusCode.BadRequest
     ErrorType.NOT_FOUND -> HttpStatusCode.NotFound

@@ -20,3 +20,6 @@ tasks.withType(KotlinCompile::class) {
     jvmTarget = "1.8"
   }
 }
+
+kotlin.sourceSets["main"].kotlin.srcDirs("src")
+kotlin.sourceSets["test"].kotlin.srcDirs("test")

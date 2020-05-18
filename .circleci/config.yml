@@ -44,6 +44,9 @@ jobs:
 
       - run: ./gradlew :<< parameters.module >>:build
 
+      - store_test_results:
+          path: << parameters.module >>/build/test-results/test
+
       - store_artifacts:
           path: << parameters.module >>/build/libs
 

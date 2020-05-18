@@ -1,4 +1,4 @@
-package me.cewong.smolurl
+package me.cewong.smolurl.server
 
 import io.ktor.application.Application
 import io.ktor.application.install
@@ -8,11 +8,11 @@ import io.ktor.routing.Routing
 import io.ktor.serialization.DefaultJsonConfiguration
 import io.ktor.serialization.json
 import kotlinx.serialization.json.Json
-import me.cewong.smolurl.controllers.index
-import me.cewong.smolurl.controllers.url
-import me.cewong.smolurl.controllers.urlRedirect
-import me.cewong.smolurl.models.ErrorTable
-import me.cewong.smolurl.models.UrlTable
+import me.cewong.smolurl.server.controllers.index
+import me.cewong.smolurl.server.controllers.url
+import me.cewong.smolurl.server.controllers.urlRedirect
+import me.cewong.smolurl.server.models.ErrorTable
+import me.cewong.smolurl.server.models.UrlTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction

@@ -1,4 +1,4 @@
-package me.cewong.smolurl.model
+package me.cewong.smolurl.models
 
 import kotlinx.serialization.Serializable
 

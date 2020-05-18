@@ -1,11 +1,11 @@
-package me.cewong.smolurl.services
+package me.cewong.smolurl.server.services
 
 import java.security.MessageDigest
 import java.time.LocalDateTime
-import me.cewong.smolurl.model.UrlModel
-import me.cewong.smolurl.models.ErrorType
-import me.cewong.smolurl.models.Url
-import me.cewong.smolurl.models.UrlTable
+import me.cewong.smolurl.models.UrlModel
+import me.cewong.smolurl.server.models.ErrorType
+import me.cewong.smolurl.server.models.Url
+import me.cewong.smolurl.server.models.UrlTable
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 sealed class Result

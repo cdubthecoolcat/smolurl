@@ -30,7 +30,7 @@ fun Application.module() {
   }
 
   Database.connect(
-    url = "jdbc:postgresql://postgres:5432/smolurl",
+    url = "jdbc:postgresql://localhost:5432/smolurl",
     driver = "org.postgresql.Driver",
     user = "root",
     password = "root"

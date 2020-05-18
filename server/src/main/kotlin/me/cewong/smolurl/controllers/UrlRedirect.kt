@@ -9,6 +9,13 @@ import me.cewong.smolurl.models.ErrorType
 import me.cewong.smolurl.services.UrlService
 import me.cewong.smolurl.utils.handleError
 
+val regex = Regex("^(https?|ftp)://.+")
+fun makeUri(target: String): String = if (regex.matches(target)) {
+  target
+} else {
+  "https://$target"
+}
+
 fun Route.urlRedirect() {
   route("/{alias}") {
     get {
@@ -17,7 +24,7 @@ fun Route.urlRedirect() {
         UrlService.findByAlias(it)?.target
       }
       if (target != null) {
-        call.respondRedirect(if (target.startsWith("http://") || target.startsWith("https://")) target else "https://$target")
+        call.respondRedirect(makeUri(target))
       } else {
         handleError(ErrorType.NOT_FOUND, alias!!)
       }

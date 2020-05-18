@@ -14,6 +14,15 @@ class Success(val url: UrlModel) : Result()
 class Error(val errorType: ErrorType) : Result()
 
 object UrlService {
+  private val aliasRegex = Regex("^[\\w\\-]+$")
+  private val urlRegex = Regex("^(https?|ftp):\\/\\/(?#)(([a-z0-9\$_\\.\\+!\\*\\'\\(\\),;" +
+    "\\?&=-]|%[0-9a-f]{2})+(?#)(:([a-z0-9\$_\\.\\+!\\*\\'\\(\\),;\\?&=-]|%[0-9a-f]{2})+)?(?#)@)?" +
+    "(?#)((([a-z0-9]\\.|[a-z0-9][a-z0-9-]*[a-z0-9]\\.)*(?#)[a-z][a-z0-9-]*[a-z0-9](?#)|((\\d|[1-9]" +
+    "\\d|1\\d{2}|2[0-4][0-9]|25[0-5])\\.){3}(?#)(\\d|[1-9]\\d|1\\d{2}|2[0-4][0-9]|25[0-5])(?#))" +
+    "(:\\d+)?(?#))(((\\/+([a-z0-9\$_\\.\\+!\\*\\'\\(\\),;:@&=-]|%[0-9a-f]{2})*)*(?#)(\\?([a-z0-9\$" +
+    "_\\.\\+!\\*\\'\\(\\),;:@&=-]|%[0-9a-f]{2})*)(?#)?)?)?(?#)(#([a-z0-9\$_\\.\\+!\\*\\'\\(\\),;:@" +
+    "&=-]|%[0-9a-f]{2})*)?(?#)\$")
+
   suspend fun findAll(): List<UrlModel> = newSuspendedTransaction {
     Url.all().map { it.toModel() }
   }
@@ -34,14 +43,16 @@ object UrlService {
     val newAlias = if (url.alias.isNotBlank()) url.alias else hash(url.target).substring(0, 6)
     val existingUrl = findByAlias(newAlias)
 
-    if (url.target.isBlank()) {
-      Error(ErrorType.INVALID_INPUT)
+    when {
+      !urlRegex.matches(url.target) -> Error(ErrorType.INVALID_URL)
+      !aliasRegex.matches(url.alias) -> Error(ErrorType.INVALID_ALIAS)
+      url.target.isBlank() -> Error(ErrorType.INVALID_INPUT)
 
       // if custom alias is supplied and that alias is already associated with a target, handle error unless target is the same
-    } else if (url.alias.isNotBlank() && existingUrl != null && existingUrl.target != url.target) {
-      Error(ErrorType.DUPLICATE)
-    } else {
-      Success(existingUrl ?: Url.new {
+      url.alias.isNotBlank() && existingUrl != null &&
+        existingUrl.target != url.target -> Error(ErrorType.DUPLICATE)
+
+      else -> Success(existingUrl ?: Url.new {
         target = url.target
         alias = newAlias
         createdAt = LocalDateTime.now()

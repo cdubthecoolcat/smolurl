@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 allprojects {
   repositories {
     mavenLocal()
@@ -33,4 +35,10 @@ task("buildWeb", Exec::class) {
   inputs.dir("$workingDir/src")
   outputs.dir("$workingDir/build")
   commandLine("yarn", "build")
+}
+
+tasks.withType(KotlinCompile::class) {
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
 }

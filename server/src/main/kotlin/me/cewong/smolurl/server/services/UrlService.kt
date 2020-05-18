@@ -1,7 +1,5 @@
 package me.cewong.smolurl.server.services
 
-import io.ktor.http.URLBuilder
-import io.ktor.http.URLParserException
 import java.security.MessageDigest
 import java.time.LocalDateTime
 import me.cewong.smolurl.models.UrlModel
@@ -9,7 +7,6 @@ import me.cewong.smolurl.server.models.ErrorType
 import me.cewong.smolurl.server.models.Url
 import me.cewong.smolurl.server.models.UrlTable
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import java.net.URL
 
 sealed class Result
 
@@ -18,7 +15,7 @@ class Error(val errorType: ErrorType) : Result()
 
 object UrlService {
   private val aliasRegex = Regex("^[\\w\\-]+$")
-  private val urlRegex = Regex("^((https?|ftp|smtp):\\/\\/)?(www.)?[a-z0-9]+\\.[a-z]+(\\/[a-zA-Z0-9#]+\\/?)*\$")
+  private val urlRegex = Regex("^((?:(https?|ftp|file)://)?[^./]+(?:\\.[^./]+)+(?:/.*)?)$")
 
   suspend fun findAll(): List<UrlModel> = newSuspendedTransaction {
     Url.all().map { it.toModel() }

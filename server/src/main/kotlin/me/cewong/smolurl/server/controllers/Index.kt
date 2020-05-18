@@ -1,4 +1,4 @@
-package me.cewong.smolurl.controllers
+package me.cewong.smolurl.server.controllers
 
 import io.ktor.http.content.default
 import io.ktor.http.content.file

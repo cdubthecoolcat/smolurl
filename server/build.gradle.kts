@@ -1,4 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val ktorVersion: String by project
 val kotlinVersion: String by project
@@ -23,6 +24,12 @@ application {
 
 tasks.withType(ShadowJar::class) {
   archiveBaseName.set("smolurl")
+}
+
+tasks.withType(KotlinCompile::class) {
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
 }
 
 dependencies {

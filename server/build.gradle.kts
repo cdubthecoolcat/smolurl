@@ -6,6 +6,7 @@ val kotlinVersion: String by project
 val logbackVersion: String by project
 val exposedVersion: String by project
 val postgresqlVersion: String by project
+val h2databaseVersion: String by project
 
 plugins {
   application
@@ -45,6 +46,7 @@ dependencies {
   implementation("org.jetbrains.exposed", "exposed-java-time", exposedVersion)
   implementation("org.postgresql", "postgresql", postgresqlVersion)
   testImplementation("io.ktor", "ktor-server-tests", ktorVersion)
+  testImplementation("com.h2database", "h2", h2databaseVersion)
 }
 
 kotlin.sourceSets["main"].kotlin.srcDirs("src")

@@ -1,4 +1,4 @@
-# smolurl
+# [smolurl](https://smolurl.cewong.me)
 
 [![CircleCI](https://circleci.com/gh/cdubthecoolcat/smolurl.svg?style=svg)](https://circleci.com/gh/cdubthecoolcat/smolurl)
 

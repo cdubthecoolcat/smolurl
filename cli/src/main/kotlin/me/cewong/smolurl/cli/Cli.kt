@@ -11,7 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 
-private const val BASE_URL = "http://smolurl.cewong.me"
+private const val BASE_URL = "https://smolurl.cewong.me"
 private val json = Json(JsonConfiguration.Stable.copy(unquotedPrint = true))
 
 fun main(args: Array<String>) {

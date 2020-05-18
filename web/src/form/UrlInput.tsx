@@ -5,6 +5,7 @@ function UrlInput(props: UrlInputProps) {
   return (
     <TextField
       fullWidth
+      required
       error={props.hasError}
       label='Url'
       variant='outlined'

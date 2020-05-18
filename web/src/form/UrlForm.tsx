@@ -34,34 +34,23 @@ function UrlForm(props: UrlFormProps) {
 
   const updateErrors = (data: any) => {
     if (data.error) {
-      if (UrlInputError[data.error.type] !== undefined) {
-        updateUrl({
-          hasError: true,
-          errorMessage: data.error.message
-        });
-        updateAlias({
-          hasError: false,
-          errorMessage: ''
-        });
-      } else {
-        updateUrl({
-          hasError: false,
-          errorMessage: ''
-        });
-        updateAlias({
-          hasError: true,
-          errorMessage: data.error.message
-        });
-      }
-    } else {
+      let isUrlError = UrlInputError[data.error.type] !== undefined;
       updateUrl({
-        hasError: false,
-        errorMessage: ''
+        hasError: isUrlError,
+        errorMessage: isUrlError ? data.error.message : ''
       });
       updateAlias({
+        hasError: !isUrlError,
+        errorMessage: !isUrlError ? data.error.message : ''
+      });
+      props.setNewUrlText('')
+    } else {
+      const noError = {
         hasError: false,
         errorMessage: ''
-      });
+      };
+      updateUrl(noError);
+      updateAlias(noError);
       props.setNewUrlText(data.alias);
     }
   };

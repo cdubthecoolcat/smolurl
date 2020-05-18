@@ -9,8 +9,8 @@ import me.cewong.smolurl.server.models.ErrorType
 import me.cewong.smolurl.server.services.UrlService
 import me.cewong.smolurl.server.utils.handleError
 
-val regex = Regex("^(https?|ftp|file)://.+")
-fun makeUri(target: String): String = if (regex.matches(target)) {
+val uriRegex = Regex("^(https?|ftp|file)://.+")
+fun makeUri(target: String): String = if (uriRegex.matches(target)) {
   target
 } else {
   "https://$target"

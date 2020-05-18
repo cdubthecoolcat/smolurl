@@ -21,5 +21,4 @@ tasks.withType(KotlinCompile::class) {
   }
 }
 
-kotlin.sourceSets["main"].kotlin.srcDirs("src")
-kotlin.sourceSets["test"].kotlin.srcDirs("test")
+kotlin.sourceSets["main"].kotlin.srcDirs("src/main")

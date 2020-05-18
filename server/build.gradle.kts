@@ -49,8 +49,7 @@ dependencies {
   testImplementation("com.h2database", "h2", h2databaseVersion)
 }
 
-kotlin.sourceSets["main"].kotlin.srcDirs("src")
-kotlin.sourceSets["test"].kotlin.srcDirs("test")
+kotlin.sourceSets["main"].kotlin.srcDirs("src/main")
+kotlin.sourceSets["test"].kotlin.srcDirs("src/test")
 
 sourceSets["main"].resources.srcDirs("resources")
-sourceSets["test"].resources.srcDirs("testresources")

@@ -13,7 +13,7 @@ import org.jetbrains.exposed.sql.`java-time`.datetime
 enum class ErrorType(val message: String) {
   BLOCKED_DOMAIN("Domain not permitted"),
   DUPLICATE("Entry already exists"),
-  INVALID_ALIAS("Alias can only contain alphanumeric characters"),
+  INVALID_ALIAS("Alias can only contain alphanumeric characters, -, and _"),
   INVALID_INPUT("Invalid input"),
   INVALID_URL("Invalid URL"),
   NOT_FOUND("URL not found"),

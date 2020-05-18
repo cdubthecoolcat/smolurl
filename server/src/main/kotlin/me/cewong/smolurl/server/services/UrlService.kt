@@ -14,7 +14,7 @@ class Success(val url: UrlModel) : Result()
 class Error(val errorType: ErrorType) : Result()
 
 object UrlService {
-  private val aliasRegex = Regex("^[a-zA-Z0-9]+\$")
+  private val aliasRegex = Regex("^[a-zA-Z0-9\\-_]+$")
   private val urlRegex = Regex("^((?:(https?|ftp|file)://)?[^./]+(?:\\.[^./]+)+(?:/.*)?)$")
 
   suspend fun findAll(): List<UrlModel> = newSuspendedTransaction {

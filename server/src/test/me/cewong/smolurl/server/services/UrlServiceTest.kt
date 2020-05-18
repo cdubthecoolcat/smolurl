@@ -41,7 +41,7 @@ class UrlServiceTest : BaseTest() {
     runBlocking {
       val urlModel = UrlModel(
         target = "google.com",
-        alias = "-------"
+        alias = "...."
       )
       val result = UrlService.create(urlModel)
       assertTrue(result is Error)
@@ -54,12 +54,12 @@ class UrlServiceTest : BaseTest() {
     runBlocking {
       val urlModel = UrlModel(
         target = "google.com",
-        alias = "alias"
+        alias = "alias--__"
       )
       val result = UrlService.create(urlModel)
       assertTrue(result is Success)
       assertEquals("google.com", result.url.target)
-      assertEquals("alias", result.url.alias)
+      assertEquals("alias--__", result.url.alias)
     }
   }
 

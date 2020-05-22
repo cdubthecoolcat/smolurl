@@ -36,4 +36,3 @@ tasks.withType(KotlinCompile::class) {
 }
 
 kotlin.sourceSets["main"].kotlin.srcDirs("src/main")
-kotlin.sourceSets["test"].kotlin.srcDirs("src/test")

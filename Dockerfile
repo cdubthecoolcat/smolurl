@@ -16,7 +16,7 @@ USER $APPLICATION_USER
 COPY ./server/build/libs/smolurl-0.0.1-all.jar /app/smolurl.jar
 RUN mkdir /app/web
 COPY ./web/build/ /app/web/build
-COPY server/blacklist /app/blacklist
+COPY server/excludeList /app/excludeList
 WORKDIR /app
 
 EXPOSE 8000

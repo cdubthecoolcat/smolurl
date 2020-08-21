@@ -12,7 +12,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 
 private const val BASE_URL = "https://smolurl.cewong.me"
-private val json = Json(JsonConfiguration.Stable.copy(unquotedPrint = true))
+private val json = Json.Default
 
 fun main(args: Array<String>) {
   val parser = ArgParser("smolurl")
@@ -47,7 +47,7 @@ fun main(args: Array<String>) {
 
     println(
       if (response.isSuccessful && responseBody != null) {
-        val model = json.parse<UrlModel>(UrlModel.serializer(), responseBody)
+        val model = json.decodeFromString<UrlModel>(UrlModel.serializer(), responseBody)
         "$BASE_URL/${model.alias}"
       } else {
         "Error shortening url: $target"

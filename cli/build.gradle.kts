@@ -23,9 +23,9 @@ tasks.withType(ShadowJar::class) {
 
 dependencies {
   implementation(project(":model"))
-  implementation(kotlin("stdlib-jdk8"))
-  implementation("org.jetbrains.kotlinx:kotlinx-cli:0.2.1")
-  implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
+  implementation(kotlin("stdlib"))
+  implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3")
+  implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.0.0-RC")
   implementation("com.squareup.okhttp3:okhttp:4.7.2")
 }
 

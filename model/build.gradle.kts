@@ -11,8 +11,8 @@ plugins {
 }
 
 dependencies {
-  implementation(kotlin("stdlib-jdk8"))
-  implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
+  implementation(kotlin("stdlib"))
+  implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.0.0-RC")
 }
 
 tasks.withType(KotlinCompile::class) {

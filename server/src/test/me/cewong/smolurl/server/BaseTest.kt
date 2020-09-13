@@ -1,12 +1,12 @@
 package me.cewong.smolurl.server
 
-import java.lang.Exception
 import me.cewong.smolurl.server.models.ErrorTable
 import me.cewong.smolurl.server.models.UrlTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Before
+import java.lang.Exception
 
 /**
  * The Exposed framework is not very testable/mockable due to the nature of tables and transactions

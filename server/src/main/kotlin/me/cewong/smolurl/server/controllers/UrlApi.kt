@@ -9,14 +9,14 @@ import io.ktor.routing.post
 import io.ktor.routing.route
 import io.ktor.util.pipeline.PipelineContext
 import kotlinx.serialization.json.Json
-import java.io.File
-import java.io.FileNotFoundException
 import me.cewong.smolurl.models.UrlModel
 import me.cewong.smolurl.server.models.ErrorType
 import me.cewong.smolurl.server.services.Error
 import me.cewong.smolurl.server.services.Success
 import me.cewong.smolurl.server.services.UrlService
 import me.cewong.smolurl.server.utils.handleError
+import java.io.File
+import java.io.FileNotFoundException
 
 val domainExcludeList = try {
   File("excludeList").useLines { it.toList() }

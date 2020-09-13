@@ -1,12 +1,12 @@
 package me.cewong.smolurl.server.services
 
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 import me.cewong.smolurl.models.UrlModel
 import me.cewong.smolurl.server.BaseTest
 import me.cewong.smolurl.server.models.ErrorType
 import org.junit.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class UrlServiceTest : BaseTest() {
 

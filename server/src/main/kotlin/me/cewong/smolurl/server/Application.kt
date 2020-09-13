@@ -4,9 +4,8 @@ import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.http.ContentType
-import io.ktor.http.ContentType.Application.Json
 import io.ktor.routing.Routing
-import io.ktor.serialization.*
+import io.ktor.serialization.json
 import kotlinx.serialization.json.Json
 import me.cewong.smolurl.server.controllers.index
 import me.cewong.smolurl.server.controllers.url

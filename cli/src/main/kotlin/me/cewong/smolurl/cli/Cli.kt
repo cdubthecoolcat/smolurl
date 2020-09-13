@@ -4,7 +4,6 @@ import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.required
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import me.cewong.smolurl.models.UrlModel
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -31,7 +30,8 @@ fun main(args: Array<String>) {
   parser.parse(args)
 
   val okHttpClient = OkHttpClient()
-  val requestBody = """
+  val requestBody =
+    """
     {
         alias: "${alias ?: ""}",
         target: "$target"

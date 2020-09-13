@@ -4,7 +4,6 @@ import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.required
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import me.cewong.smolurl.models.UrlModel
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -12,7 +11,7 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 
 private const val BASE_URL = "https://smolurl.cewong.me"
-private val json = Json(JsonConfiguration.Stable.copy(unquotedPrint = true))
+private val json = Json.Default
 
 fun main(args: Array<String>) {
   val parser = ArgParser("smolurl")
@@ -31,7 +30,8 @@ fun main(args: Array<String>) {
   parser.parse(args)
 
   val okHttpClient = OkHttpClient()
-  val requestBody = """
+  val requestBody =
+    """
     {
         alias: "${alias ?: ""}",
         target: "$target"
@@ -47,7 +47,7 @@ fun main(args: Array<String>) {
 
     println(
       if (response.isSuccessful && responseBody != null) {
-        val model = json.parse<UrlModel>(UrlModel.serializer(), responseBody)
+        val model = json.decodeFromString<UrlModel>(UrlModel.serializer(), responseBody)
         "$BASE_URL/${model.alias}"
       } else {
         "Error shortening url: $target"

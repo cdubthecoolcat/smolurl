@@ -1,6 +1,5 @@
 package me.cewong.smolurl.server.models
 
-import java.time.LocalDateTime
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
@@ -8,6 +7,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.LongIdTable
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.`java-time`.datetime
+import java.time.LocalDateTime
 
 @Serializable
 enum class ErrorType(val message: String) {

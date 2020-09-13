@@ -8,15 +8,15 @@ import io.ktor.routing.Route
 import io.ktor.routing.post
 import io.ktor.routing.route
 import io.ktor.util.pipeline.PipelineContext
-import java.io.File
-import java.io.FileNotFoundException
+import kotlinx.serialization.json.Json
 import me.cewong.smolurl.models.UrlModel
 import me.cewong.smolurl.server.models.ErrorType
 import me.cewong.smolurl.server.services.Error
 import me.cewong.smolurl.server.services.Success
 import me.cewong.smolurl.server.services.UrlService
 import me.cewong.smolurl.server.utils.handleError
-import me.cewong.smolurl.server.utils.json
+import java.io.File
+import java.io.FileNotFoundException
 
 val domainExcludeList = try {
   File("excludeList").useLines { it.toList() }
@@ -32,7 +32,7 @@ fun Route.url() {
         if (newUrl != null) {
           when (val result = UrlService.create(newUrl)) {
             is Success -> call.respond(result.url)
-            is Error -> handleError(result.errorType, json.stringify(UrlModel.serializer(), newUrl))
+            is Error -> handleError(result.errorType, Json.encodeToString(UrlModel.serializer(), newUrl))
           }
         } else {
           handleError(ErrorType.INVALID_INPUT)
@@ -48,7 +48,7 @@ private suspend fun PipelineContext<Unit, ApplicationCall>.domainExcludeListGuar
 ) {
   if (domainExcludeList.any { model?.target?.contains(it) == true }) {
     if (model != null) {
-      handleError(ErrorType.BLOCKED_DOMAIN, json.stringify(UrlModel.serializer(), model))
+      handleError(ErrorType.BLOCKED_DOMAIN, Json.encodeToString(UrlModel.serializer(), model))
     } else {
       handleError(ErrorType.BLOCKED_DOMAIN)
     }

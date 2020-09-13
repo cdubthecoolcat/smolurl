@@ -1,12 +1,12 @@
 package me.cewong.smolurl.server.services
 
-import java.security.MessageDigest
-import java.time.LocalDateTime
 import me.cewong.smolurl.models.UrlModel
 import me.cewong.smolurl.server.models.ErrorType
 import me.cewong.smolurl.server.models.Url
 import me.cewong.smolurl.server.models.UrlTable
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.security.MessageDigest
+import java.time.LocalDateTime
 
 sealed class Result
 
@@ -46,12 +46,14 @@ object UrlService {
       url.alias.isNotBlank() && existingUrl != null &&
         existingUrl.target != url.target -> Error(ErrorType.DUPLICATE)
 
-      else -> Success(existingUrl ?: Url.new {
-        target = url.target
-        alias = newAlias
-        createdAt = LocalDateTime.now()
-        updatedAt = LocalDateTime.now()
-      }.toModel())
+      else -> Success(
+        existingUrl ?: Url.new {
+          target = url.target
+          alias = newAlias
+          createdAt = LocalDateTime.now()
+          updatedAt = LocalDateTime.now()
+        }.toModel()
+      )
     }
   }
 

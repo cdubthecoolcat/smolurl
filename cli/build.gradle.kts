@@ -26,7 +26,7 @@ dependencies {
   implementation(kotlin("stdlib"))
   implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3")
   implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.0.0-RC")
-  implementation("com.squareup.okhttp3:okhttp:4.7.2")
+  implementation("com.squareup.okhttp3:okhttp:4.9.0")
 }
 
 tasks.withType(KotlinCompile::class) {

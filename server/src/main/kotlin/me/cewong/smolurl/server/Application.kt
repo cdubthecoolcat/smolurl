@@ -4,9 +4,9 @@ import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.features.ContentNegotiation
 import io.ktor.http.ContentType
+import io.ktor.http.ContentType.Application.Json
 import io.ktor.routing.Routing
-import io.ktor.serialization.DefaultJsonConfiguration
-import io.ktor.serialization.json
+import io.ktor.serialization.*
 import kotlinx.serialization.json.Json
 import me.cewong.smolurl.server.controllers.index
 import me.cewong.smolurl.server.controllers.url
@@ -22,9 +22,9 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 fun Application.module() {
   install(ContentNegotiation) {
     json(
-      json = Json(
-        DefaultJsonConfiguration.copy(prettyPrint = true)
-      ),
+      json = Json {
+        prettyPrint = true
+      },
       contentType = ContentType.Application.Json
     )
   }

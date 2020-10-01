@@ -12,8 +12,8 @@ allprojects {
 plugins {
   id("org.jlleitschuh.gradle.ktlint") version "9.3.0"
   id("com.github.johnrengelman.shadow") version "5.2.0"
-  kotlin("jvm") version "1.4.0"
-  kotlin("plugin.serialization") version "1.4.0"
+  kotlin("jvm") version "1.4.10"
+  kotlin("plugin.serialization") version "1.4.10"
 }
 
 task("dockerUp", Exec::class) {

@@ -12,7 +12,7 @@ plugins {
 
 dependencies {
   implementation(kotlin("stdlib"))
-  implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.0.0-RC")
+  implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.0.0")
 }
 
 tasks.withType(KotlinCompile::class) {

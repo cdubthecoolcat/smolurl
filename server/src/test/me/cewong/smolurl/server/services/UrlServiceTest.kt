@@ -4,9 +4,9 @@ import kotlinx.coroutines.runBlocking
 import me.cewong.smolurl.models.UrlModel
 import me.cewong.smolurl.server.BaseTest
 import me.cewong.smolurl.server.models.ErrorType
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class UrlServiceTest : BaseTest() {
 
@@ -19,7 +19,7 @@ class UrlServiceTest : BaseTest() {
       )
       val result = UrlService.create(urlModel)
       assertTrue(result is Success)
-      assertEquals("google.com", result.url.target)
+      assertEquals("google.com", (result as Success).url.target)
     }
   }
 
@@ -32,7 +32,7 @@ class UrlServiceTest : BaseTest() {
       )
       val result = UrlService.create(urlModel)
       assertTrue(result is Error)
-      assertEquals(ErrorType.INVALID_URL, result.errorType)
+      assertEquals(ErrorType.INVALID_URL, (result as Error).errorType)
     }
   }
 
@@ -45,7 +45,7 @@ class UrlServiceTest : BaseTest() {
       )
       val result = UrlService.create(urlModel)
       assertTrue(result is Error)
-      assertEquals(ErrorType.INVALID_ALIAS, result.errorType)
+      assertEquals(ErrorType.INVALID_ALIAS, (result as Error).errorType)
     }
   }
 
@@ -58,7 +58,7 @@ class UrlServiceTest : BaseTest() {
       )
       val result = UrlService.create(urlModel)
       assertTrue(result is Success)
-      assertEquals("google.com", result.url.target)
+      assertEquals("google.com", (result as Success).url.target)
       assertEquals("alias--__", result.url.alias)
     }
   }
@@ -78,7 +78,7 @@ class UrlServiceTest : BaseTest() {
       )
       val result = UrlService.create(duplicateAliasModel)
       assertTrue(result is Error)
-      assertEquals(ErrorType.DUPLICATE, result.errorType)
+      assertEquals(ErrorType.DUPLICATE, (result as Error).errorType)
     }
   }
 
@@ -97,7 +97,7 @@ class UrlServiceTest : BaseTest() {
       )
       val result = UrlService.create(duplicateAliasModel)
       assertTrue(result is Success)
-      assertEquals("google.com", result.url.target)
+      assertEquals("google.com", (result as Success).url.target)
       assertEquals("alias", result.url.alias)
     }
   }

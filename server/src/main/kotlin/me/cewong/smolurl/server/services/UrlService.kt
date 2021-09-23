@@ -5,6 +5,7 @@ import me.cewong.smolurl.server.models.ErrorType
 import me.cewong.smolurl.server.models.Url
 import me.cewong.smolurl.server.models.UrlTable
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.net.URI
 import java.security.MessageDigest
 import java.time.LocalDateTime
 

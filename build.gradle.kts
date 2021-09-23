@@ -3,17 +3,17 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 allprojects {
   repositories {
     mavenLocal()
+    mavenCentral()
     maven("https://plugins.gradle.org/m2/")
-    jcenter()
     maven("https://kotlin.bintray.com/ktor")
   }
 }
 
 plugins {
-  id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
+  id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
   id("com.github.johnrengelman.shadow") version "7.0.0"
-  kotlin("jvm") version "1.5.0"
-  kotlin("plugin.serialization") version "1.5.0"
+  kotlin("jvm") version "1.5.31"
+  kotlin("plugin.serialization") version "1.5.31"
 }
 
 task("dockerUp", Exec::class) {

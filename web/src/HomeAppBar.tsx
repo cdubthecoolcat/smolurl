@@ -1,6 +1,6 @@
-import { AppBar, Fade, Link, Switch, Toolbar, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { Brightness4, BrightnessHigh } from '@material-ui/icons';
+import { AppBar, Fade, Link, Switch, Toolbar, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { Brightness4, BrightnessHigh } from '@mui/icons-material';
 import React from 'react';
 
 const useStyles = makeStyles({

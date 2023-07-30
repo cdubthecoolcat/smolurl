@@ -4,16 +4,14 @@ allprojects {
   repositories {
     mavenLocal()
     mavenCentral()
-    maven("https://plugins.gradle.org/m2/")
-    maven("https://kotlin.bintray.com/ktor")
   }
 }
 
 plugins {
-  id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
-  id("com.github.johnrengelman.shadow") version "7.0.0"
-  kotlin("jvm") version "1.5.31"
-  kotlin("plugin.serialization") version "1.5.31"
+  id("org.jlleitschuh.gradle.ktlint") version "11.5.0"
+  id("com.github.johnrengelman.shadow") version "8.1.1"
+  kotlin("jvm") version "1.9.0"
+  kotlin("plugin.serialization") version "1.9.0"
 }
 
 task("dockerUp", Exec::class) {
@@ -39,6 +37,6 @@ task("buildWeb", Exec::class) {
 
 tasks.withType(KotlinCompile::class) {
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = "17"
   }
 }

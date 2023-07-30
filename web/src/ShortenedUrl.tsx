@@ -1,4 +1,4 @@
-import { Collapse, Fade, Link, Typography } from '@material-ui/core';
+import { Collapse, Fade, Link, Typography } from '@mui/material';
 import React from 'react';
 
 function ShortenedUrl(props: ShortenedUrlProps) {

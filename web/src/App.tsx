@@ -1,5 +1,6 @@
-import { createMuiTheme, CssBaseline, Grid, ThemeProvider, useMediaQuery } from '@material-ui/core';
-import { blue, pink } from '@material-ui/core/colors';
+import { createTheme, CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
+import { blue, pink } from '@mui/material/colors';
+import Grid from '@mui/material/Unstable_Grid2'
 import React from 'react';
 import UrlForm from './form/UrlForm';
 import HomeAppBar from './HomeAppBar';
@@ -28,7 +29,7 @@ function App() {
     }
   }, [prefersDarkMode]);
 
-  const theme = createMuiTheme({
+  const theme = createTheme({
     palette: {
       background: {
         default: darkMode ? '#212121' : '#ffffff'
@@ -39,7 +40,7 @@ function App() {
       secondary: {
         main: darkMode ? blue[400] : pink[400]
       },
-      type: darkMode ? 'dark' : 'light'
+      mode: darkMode ? 'dark' : 'light'
     }
   });
 
@@ -53,8 +54,8 @@ function App() {
       <Grid
         container
         direction='column'
+        justifyContent='center'
         alignItems='center'
-        justify='center'
         style={{ minHeight: '75vh' }}>
         <ShortenedUrl
           text={newUrlText}

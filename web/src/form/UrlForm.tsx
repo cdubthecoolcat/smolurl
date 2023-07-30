@@ -1,4 +1,4 @@
-import { Button, Fade } from '@material-ui/core';
+import { Button, Fade } from '@mui/material';
 import React, { FormEvent } from 'react';
 import AliasInput from './AliasInput';
 import { submitUrl } from './http';

@@ -1,4 +1,4 @@
-import { Checkbox, Collapse, FormControlLabel, TextField } from '@material-ui/core';
+import { Checkbox, Collapse, FormControlLabel, TextField } from '@mui/material';
 import React from 'react';
 
 function AliasInput(props: AliasInputProps) {

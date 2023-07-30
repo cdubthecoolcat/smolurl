@@ -1,29 +1,17 @@
 package me.cewong.smolurl.server.controllers
 
-import io.ktor.http.content.default
-import io.ktor.http.content.file
-import io.ktor.http.content.files
-import io.ktor.http.content.static
-import io.ktor.http.content.staticRootFolder
-import io.ktor.routing.Route
+import io.ktor.server.http.content.staticFiles
+import io.ktor.server.routing.Route
 import java.io.File
 
 fun Route.index() {
-  static("static") {
-    staticRootFolder = File("web/build/static")
-    static("css") {
-      files("css")
-    }
-    static("js") {
-      files("js")
-    }
-    static("media") {
-      files("media")
-    }
+  staticFiles("static", File("web/build/static")) {
+    staticFiles("css", File("css"))
+    staticFiles("js", File("js"))
+    staticFiles("media", File("media"))
   }
-  static {
-    staticRootFolder = File("web/build")
-    file("favicon.ico")
+  staticFiles("/", File("web/build")) {
+    File("favicon.ico")
     default("index.html")
   }
 }

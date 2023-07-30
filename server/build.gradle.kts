@@ -29,7 +29,7 @@ tasks.withType(ShadowJar::class) {
 
 tasks.withType(KotlinCompile::class) {
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = "17"
   }
 }
 
@@ -40,6 +40,8 @@ dependencies {
   implementation("io.ktor", "ktor-server-netty", ktorVersion)
   implementation("io.ktor", "ktor-server-core", ktorVersion)
   implementation("io.ktor", "ktor-serialization", ktorVersion)
+  implementation("io.ktor", "ktor-server-content-negotiation", ktorVersion)
+  implementation("io.ktor", "ktor-serialization-kotlinx-json", ktorVersion)
   implementation("org.jetbrains.exposed", "exposed-core", exposedVersion)
   implementation("org.jetbrains.exposed", "exposed-dao", exposedVersion)
   implementation("org.jetbrains.exposed", "exposed-jdbc", exposedVersion)

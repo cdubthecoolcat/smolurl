@@ -24,14 +24,14 @@ tasks.withType(ShadowJar::class) {
 dependencies {
   implementation(project(":model"))
   implementation(kotlin("stdlib"))
-  implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3.3")
-  implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
-  implementation("com.squareup.okhttp3:okhttp:4.9.1")
+  implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3.5")
+  implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+  implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
 }
 
 tasks.withType(KotlinCompile::class) {
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = "17"
   }
 }
 

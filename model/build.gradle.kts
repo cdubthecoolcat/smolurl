@@ -12,12 +12,12 @@ plugins {
 
 dependencies {
   implementation(kotlin("stdlib"))
-  implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.2.2")
+  implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.5.1")
 }
 
 tasks.withType(KotlinCompile::class) {
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = "17"
   }
 }
 

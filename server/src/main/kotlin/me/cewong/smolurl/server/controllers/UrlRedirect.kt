@@ -1,10 +1,10 @@
 package me.cewong.smolurl.server.controllers
 
-import io.ktor.application.call
-import io.ktor.response.respondRedirect
-import io.ktor.routing.Route
-import io.ktor.routing.get
-import io.ktor.routing.route
+import io.ktor.server.application.call
+import io.ktor.server.response.respondRedirect
+import io.ktor.server.routing.Route
+import io.ktor.server.routing.get
+import io.ktor.server.routing.route
 import me.cewong.smolurl.server.models.ErrorType
 import me.cewong.smolurl.server.services.UrlService
 import me.cewong.smolurl.server.utils.handleError

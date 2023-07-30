@@ -1,12 +1,12 @@
 package me.cewong.smolurl.server.controllers
 
-import io.ktor.application.ApplicationCall
-import io.ktor.application.call
-import io.ktor.request.receiveOrNull
-import io.ktor.response.respond
-import io.ktor.routing.Route
-import io.ktor.routing.post
-import io.ktor.routing.route
+import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.call
+import io.ktor.server.request.receiveNullable
+import io.ktor.server.response.respond
+import io.ktor.server.routing.Route
+import io.ktor.server.routing.post
+import io.ktor.server.routing.route
 import io.ktor.util.pipeline.PipelineContext
 import kotlinx.serialization.json.Json
 import me.cewong.smolurl.models.UrlModel
@@ -27,7 +27,7 @@ val domainExcludeList = try {
 fun Route.url() {
   route("/api/urls") {
     post {
-      val newUrl: UrlModel? = call.receiveOrNull()
+      val newUrl: UrlModel? = call.receiveNullable()
       domainExcludeListGuard(newUrl) {
         if (newUrl != null) {
           when (val result = UrlService.create(newUrl)) {

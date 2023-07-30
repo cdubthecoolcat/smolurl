@@ -43,10 +43,10 @@ fun main(args: Array<String>) {
     .build()
   try {
     val response = okHttpClient.newCall(request).execute()
-    val responseBody = response.body?.string()
+    val responseBody = response.body.string()
 
     println(
-      if (response.isSuccessful && responseBody != null) {
+      if (response.isSuccessful) {
         val model = json.decodeFromString<UrlModel>(UrlModel.serializer(), responseBody)
         "$BASE_URL/${model.alias}"
       } else {

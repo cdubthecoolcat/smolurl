@@ -10,7 +10,7 @@ import org.jetbrains.exposed.sql.javatime.datetime
 import java.time.LocalDateTime
 
 object UrlTable : LongIdTable("urls", "pk_alias") {
-  val target: Column<String> = varchar("target", 255)
+  val target: Column<String> = varchar("target", 2000)
   val alias: Column<String> = varchar("alias", 255)
   val createdAt: Column<LocalDateTime> = datetime("created_at")
   val updatedAt: Column<LocalDateTime> = datetime("updated_at")

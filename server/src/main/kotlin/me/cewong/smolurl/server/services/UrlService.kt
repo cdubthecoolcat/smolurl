@@ -34,7 +34,7 @@ object UrlService {
   }
 
   suspend fun create(url: UrlModel): Result = newSuspendedTransaction {
-    val newAlias = if (url.alias.isNotBlank()) url.alias else hash(url.target).substring(0, 6)
+    val newAlias = url.alias.ifBlank { hash(url.target).substring(0, 6) }
     val existingUrl = findByAlias(newAlias)
 
     when {
